@@ -1,2 +1,13 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+
+
+<p>
+  Visiter le forum
+</p>
+
+<div class="btn btn-primary">
+  <%= link_to "Se connecter", new_user_session_path, class:"btn btn-primary" %>
+</div>
+
+<div class="btn btn-primary">
+  <%= link_to "Créer un compte", new_user_registration_path, class:"btn btn-primary" %>
+</div>

@@ -1,0 +1,29 @@
+<h3> Modifier mon article </h3>
+
+<div class="container-fluid">
+  <div class="col-md-6">
+    <%= form_tag(user_articles_path(current_user), method: :patch, multipart: true) do %>
+
+    <div class="field mb-3">
+      <%= label_tag 'Titre' %>
+      <%= text_field_tag 'article[title]', nil, class: "form-control" %>
+    </div>
+
+    <div class="field mb-3">
+      <%= label_tag 'Texte' %>
+      <%= text_area_tag 'article[content]', nil, class: "form-control", rows: 10 %>
+    </div>
+
+    <div class="field mb-3">
+      <%= label_tag 'Fichier' %>
+      <%= file_field_tag 'article[files][]', multiple: true, class: "form-control" %>
+    </div>
+
+    <%= submit_tag 'Créer Article', class: "btn btn-primary" %>
+    <% end %>
+  </div>
+
+  <br>
+
+  <%= link_to 'Retour', user_articles_path(current_user), class: "btn btn-secondary" %>
+</div>
