@@ -2,21 +2,18 @@
 
 <p> <%= @article.content %> </p>
 
-<p> Créé par <%= @article.user.email %> </p>
+<p> Créé par <%= @article.user.email %></p>
 
-<p> Le <%= @article.created_at.strftime("%d/%m/%Y") %> </p>
+<p> Le <%= @article.created_at.strftime("%d/%m/%Y") %></p>
 
 <% if @article.files.attached? %>
   <%= image_tag @article.file %>
 <% end %>
 
-<% if policy(@article).edit? %>
-  <%= link_to "Modifier article", user_article_path(@user, @article) %>
+<% if user_signed_in? && @article.user == current_user %>
+  <%= link_to "Modifier article", user_article_path(@user, @article), class: "btn btn-secondary" if policy(@article).edit? %>
+
+  <%= link_to "Supprimer article", @article, method: :delete, class: "btn btn-secondary" if policy(@article).destroy? %>
 <% end %>
-
-
-<%= link_to "Supprimer article", @article, method: :delete if policy(@article).destroy? %>
-
-
 
 <%= link_to 'Retour', user_articles_path(@user), class: "btn btn-secondary" %>

@@ -1,10 +1,4 @@
-<% if user_signed_in? %>
-  <div class="btn btn-primary">
-  <%= link_to "Nouveau article", new_user_article_path(current_user), class: "btn btn-primary" if policy(Article).new? %>
-  </div>
-<% end %>
-
-<h2> Forum index </h2>
+<h2> Forum </h2>
 
 <% @articles.each do |article| %>
   <div class="card" style="width: 18rem; margin-top: 2rem;">
@@ -17,7 +11,7 @@
       <p class="card-text"><%= article.content %></p>
       <p class="card-text">Le <%= article.created_at.strftime("%d/%m/%Y") %></p>
       <% if user_signed_in? %>
-      <div class="btn btn-primary">
+      <div>
         <%= link_to "Voir", user_article_path(current_user, article), class:"btn btn-primary" %>
       </div>
       <% end %>
@@ -26,9 +20,14 @@
 <% end %>
 
 
-<div class="btn btn-primary">
-  <%= link_to 'Se connecter', new_user_session_path, class: "btn btn-primary" %>
-</div>
-<div class="btn btn-primary">
-  <%= link_to 'Créer un compte', new_user_registration_path, class: "btn btn-primary"%>
-</div>
+<br><br>
+<% if user_signed_in? %>
+  <div class="col-md-6 d-flex" style="justify-content: center;">
+  <%= link_to "Nouveau article", new_user_article_path(current_user), class: "btn btn-primary" %>
+  </div>
+  <% else %>
+  <div class="col-md-6 d-flex" style="justify-content: center;">
+    <%= link_to 'Se connecter', new_user_session_path, class: "btn btn-primary" %>
+    <%= link_to 'Créer un compte', new_user_registration_path, class: "btn btn-secondary" %>
+  </div>
+<% end %>
