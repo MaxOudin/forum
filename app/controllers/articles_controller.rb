@@ -1,10 +1,10 @@
 class ArticlesController < ApplicationController
-  # before_action :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!, except: [:index, :show]
   before_action :set_article, only: [:show, :edit, :update, :destroy]
   before_action :set_user, only: [:new, :create, :destroy, :edit, :update]
 
   def index
-    @articles = Article.all
+    @articles = policy_scope(Article)
   end
 
   def show

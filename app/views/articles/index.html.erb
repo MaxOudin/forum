@@ -39,14 +39,3 @@
 
 <br>
 <br>
-
-<% if user_signed_in? %>
-  <div class="d-flex" style="justify-content: center;">
-    <%= link_to "Nouveau article", new_article_path, class: "btn btn-primary" %>
-  </div>
-<% else %>
-  <div class="d-flex" style="justify-content: center;">
-    <%= link_to 'Se connecter', new_user_session_path, class: "btn btn-primary" %>
-    <%= link_to 'Créer un compte', new_user_registration_path, class: "btn btn-secondary" %>
-  </div>
-<% end %>

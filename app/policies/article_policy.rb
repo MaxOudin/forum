@@ -1,26 +1,33 @@
 class ArticlePolicy < ApplicationPolicy
-
-  def show?
-    true
+  class Scope < Scope
+    def resolve
+      if user.present? && user.admin?
+        scope.all
+      elsif user.present? && record.user == user?
+        scope.where(user: user)
+      else
+        scope.where(public: true)
+      end
+    end
   end
 
   def index?
-    true
+    user.admin?
   end
 
-  def new?
-    user || user.admin?
+  def show?
+    user.admin? || record.user == user || record.public?
   end
 
   def create?
-    user || user.admin?
+    user.admin?
   end
 
   def update?
-    user && (record.user == user || user.admin?)
+    user.present? && (user.admin? || record.user == user)
   end
 
   def destroy?
-    user && (record.user == user || user.admin?)
+    update?
   end
 end
