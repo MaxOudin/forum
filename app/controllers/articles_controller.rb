@@ -12,7 +12,8 @@ class ArticlesController < ApplicationController
   end
 
   def new
-    @article = Article.new(public: false)
+    @article = Article.new
+    @article.public = false
     # authorize @article
   end
 
@@ -32,6 +33,7 @@ class ArticlesController < ApplicationController
 
   def edit
     # authorize @article
+    @article.public = false
   end
 
   def update
@@ -59,7 +61,7 @@ class ArticlesController < ApplicationController
   private
 
   def article_params
-    params.require(:article).permit(:title, :content, files: [])
+    params.require(:article).permit(:title, :content, :public, files: [])
   end
 
   def set_user

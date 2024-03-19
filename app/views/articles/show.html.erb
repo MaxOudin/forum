@@ -1,5 +1,9 @@
 <h3> Article : <%= @article.title %></h3>
 
+<% if @article.public == false %>
+  <p style="color: red;"> L'article est privé. </p>
+<% end %>
+
 <p> <%= @article.content %> </p>
 
 <p> Créé par <%= @article.user.email %></p>

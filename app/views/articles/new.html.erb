@@ -20,8 +20,8 @@
     </div>
 
     <div class="field mb-3">
-      <%= label_tag 'Privé' %>
-      <%= check_box_tag 'article[public]', '1', @article.public %>
+      <%= label_tag 'Article privé' %>
+      <%= check_box_tag 'article[public]', '0', true %>
     </div>
 
     <%= submit_tag 'Créer Article', class: "btn btn-primary" %>
