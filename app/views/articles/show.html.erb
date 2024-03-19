@@ -14,10 +14,15 @@
   <%= image_tag @article.files %>
 <% end %>
 
-<% if user_signed_in? && @article.user == current_user %>
-  <%= link_to "Modifier article", edit_article_path(@article), class: "btn btn-secondary" %>
+<% if policy(@article).update? %>
+  <%= link_to "Modifier article", edit_article_path(@article),
+  class: "btn btn-secondary" %>
+<% end %>
 
-  <%= link_to "Supprimer article", @article, data: { turbo_method: :delete, turbo_confirm: 'Etes vous sûr ?' }, class: "btn btn-secondary" %>
+<% if policy(@article).destroy? %>
+  <%= link_to "Supprimer article", @article,
+  data: { turbo_method: :delete, turbo_confirm: 'Etes vous sûr ?' },
+  class: "btn btn-secondary" %>
 <% end %>
 
 <%= link_to 'Retour', articles_path, class: "btn btn-secondary" %>

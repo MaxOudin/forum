@@ -9,8 +9,23 @@
       <p class="card-text">Publié le <%= article.created_at.strftime("%d/%m/%Y") %></p>
       <h5 class="card-title"><%= article.title %></h5>
       <p class="card-text"><%= truncate(article.content, length: 200) %></p>
-      <div class="d-flex justify-content-end">
-        <%= link_to "Voir plus", article_path(article), class:"btn btn-primary" %>
+      <br>
+      <div>
+        <% if policy(article).update? %>
+          <div class="d-flex justify-content-end" style="margin-bottom: 1rem;">
+            <%= link_to "Modifier article", edit_article_path(article), class: "btn btn-secondary" %>
+          </div>
+        <% end %>
+
+        <% if policy(article).destroy? %>
+          <div class="d-flex justify-content-end" style="margin-bottom: 1rem;">
+            <%= link_to "Supprimer article", article, data: { turbo_method: :delete, turbo_confirm: 'Etes vous sûr ?' }, class: "btn btn-secondary" %>
+          </div>
+        <% end %>
+
+          <div class="d-flex justify-content-end" style="margin-bottom: 1rem;">
+          <%= link_to "Voir plus", article_path(article), class:"btn btn-primary" %>
+        </div>
       </div>
     </div>
   </div>

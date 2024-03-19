@@ -1,5 +1,5 @@
 class ArticlesController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
+  # before_action :authenticate_user!, except: [:index, :show]
   before_action :set_article, only: [:show, :edit, :update, :destroy]
   before_action :set_user, only: [:new, :create, :destroy, :edit, :update]
 
@@ -8,19 +8,18 @@ class ArticlesController < ApplicationController
   end
 
   def show
-    # authorize @article
   end
 
   def new
     @article = Article.new
     @article.public = false
-    # authorize @article
+    authorize @article
   end
 
   def create
     @article = Article.new(article_params)
     @article.user = current_user
-    # authorize @article
+    authorize @article
 
     if @article.save
       flash[:notice] = "Article créé avec succès"
@@ -32,12 +31,12 @@ class ArticlesController < ApplicationController
   end
 
   def edit
-    # authorize @article
+    authorize @article
     @article.public = false
   end
 
   def update
-    # authorize @article
+    authorize @article
     if @article.update(article_params)
       flash[:notice] = "Article modifié avec succès"
       redirect_to article_path(@article)
@@ -48,7 +47,7 @@ class ArticlesController < ApplicationController
   end
 
   def destroy
-    # authorize @article
+    authorize @article
     if @article.destroy
       flash[:notice] = "Article supprimé avec succès"
       redirect_to articles_path, status: :see_other
