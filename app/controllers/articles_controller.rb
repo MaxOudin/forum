@@ -1,29 +1,29 @@
 class ArticlesController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :set_user, only: [:new, :create, :destroy, :edit, :update]
   before_action :set_article, only: [:show, :edit, :update, :destroy]
-  before_action :authorize_article, only: [:show, :edit, :update, :destroy]
-
+  before_action :set_user, only: [:new, :create, :destroy, :edit, :update]
 
   def index
     @articles = Article.all
-    @articles = policy_scope(Article)
   end
 
   def show
+    # authorize @article
   end
 
   def new
-    @article = Article.new
+    @article = Article.new(public: false)
+    # authorize @article
   end
 
   def create
-    @article = Article.new
+    @article = Article.new(article_params)
     @article.user = current_user
+    # authorize @article
 
     if @article.save
       flash[:notice] = "Article créé avec succès"
-      redirect_to user_article_path(@user, @article)
+      redirect_to article_path(@article)
     else
       flash[:error] = "Article non créé, veuillez réessayer"
       render :new
@@ -31,12 +31,14 @@ class ArticlesController < ApplicationController
   end
 
   def edit
+    # authorize @article
   end
 
   def update
+    # authorize @article
     if @article.update(article_params)
       flash[:notice] = "Article modifié avec succès"
-      redirect_to user_article_path(@user, @article)
+      redirect_to article_path(@article)
     else
       flash[:error] = "Article non modifié, veuillez réessayer"
       render :edit
@@ -44,9 +46,10 @@ class ArticlesController < ApplicationController
   end
 
   def destroy
+    # authorize @article
     if @article.destroy
       flash[:notice] = "Article supprimé avec succès"
-      redirect_to user_articles_path(@user), status: :see_other
+      redirect_to articles_path, status: :see_other
     else
       flash[:error] = "Article non supprimé, veuillez réessayer"
       render :show, status: :unprocessable_entity
@@ -65,10 +68,6 @@ class ArticlesController < ApplicationController
 
   def set_article
     @article = Article.find(params[:id])
-  end
-
-  def authorize_article
-    authorize @article
   end
 
 end

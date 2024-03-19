@@ -1,32 +1,32 @@
 class ArticlePolicy < ApplicationPolicy
+
   class Scope < Scope
-    # NOTE: Be explicit about which records you allow access to!
     def resolve
-      user.nil? ? scope.all : (user.admin? ? scope.all : scope.where(user: user))
+      scope.all
     end
+  end
 
-    def show?
-      true
-    end
+  def show?
+    true
+  end
 
-    def index?
-      true
-    end
+  def index?
+    true
+  end
 
-    def new?
-      true
-    end
+  def new?
+    user || user.admin?
+  end
 
-    def create?
-      true
-    end
+  def create?
+    user || user.admin?
+  end
 
-    def update?
-      record.user == user
-    end
+  def update?
+    user && (record.user == user || user.admin?)
+  end
 
-    def destroy?
-      record.user == user
-    end
+  def destroy?
+    user && (record.user == user || user.admin?)
   end
 end

@@ -6,4 +6,11 @@ class Article < ApplicationRecord
 
   belongs_to :user
 
+  after_initialize :set_default_public
+
+  private
+
+  def set_default_public
+    self.public ||= false
+  end
 end

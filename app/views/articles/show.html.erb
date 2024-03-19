@@ -7,13 +7,13 @@
 <p> Le <%= @article.created_at.strftime("%d/%m/%Y") %></p>
 
 <% if @article.files.attached? %>
-  <%= image_tag @article.file %>
+  <%= image_tag @article.files %>
 <% end %>
 
 <% if user_signed_in? && @article.user == current_user %>
-  <%= link_to "Modifier article", user_article_path(@user, @article), class: "btn btn-secondary" if policy(@article).edit? %>
+  <%= link_to "Modifier article", edit_article_path(@article), class: "btn btn-secondary" %>
 
-  <%= link_to "Supprimer article", @article, method: :delete, class: "btn btn-secondary" if policy(@article).destroy? %>
+  <%= link_to "Supprimer article", @article, data: { turbo_method: :delete, turbo_confirm: 'Etes vous sûr ?' }, class: "btn btn-secondary" %>
 <% end %>
 
-<%= link_to 'Retour', user_articles_path(@user), class: "btn btn-secondary" %>
+<%= link_to 'Retour', articles_path, class: "btn btn-secondary" %>

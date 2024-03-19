@@ -2,7 +2,7 @@
 
 <div class="container-fluid">
   <div class="col-md-6">
-    <%= form_tag(user_articles_path(current_user), multipart: true) do %>
+    <%= form_tag(articles_path, multipart: true) do %>
 
     <div class="field mb-3">
       <%= label_tag 'Titre' %>
@@ -19,11 +19,16 @@
       <%= file_field_tag 'article[files][]', multiple: true, class: "form-control" %>
     </div>
 
+    <div class="field mb-3">
+      <%= label_tag 'Privé' %>
+      <%= check_box_tag 'article[public]', '1', @article.public %>
+    </div>
+
     <%= submit_tag 'Créer Article', class: "btn btn-primary" %>
     <% end %>
   </div>
 
   <br>
 
-  <%= link_to 'Retour', user_articles_path(current_user), class: "btn btn-secondary" %>
+  <%= link_to 'Retour', articles_path, class: "btn btn-secondary" %>
 </div>
