@@ -3,8 +3,8 @@ class ArticlePolicy < ApplicationPolicy
     def resolve
       if user.present? && user.admin?
         scope.all
-      elsif user.present? && record.user == user?
-        scope.where(user: user)
+      elsif user.present?
+        scope.where(public: true).or(scope.where(user_id: user.id))
       else
         scope.where(public: true)
       end
