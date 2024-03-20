@@ -10,4 +10,6 @@ Rails.application.routes.draw do
 
 
   resources :articles
+  delete 'articles/:id/remove_attachment/:attachment_id', to: 'articles#remove_attachment', as: 'remove_attachment'
+
 end

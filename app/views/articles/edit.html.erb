@@ -1,34 +1,5 @@
-<h3> Modifier mon article </h3>
+<h3 style="text-align: center;">Modifier mon article</h3>
+<br>
+<br>
 
-<div class="container-fluid">
-  <div class="col-md-6">
-    <%= form_for(@article, url: article_path(@article), method: :patch, multipart: true) do |f| %>
-
-    <div class="field mb-3">
-      <%= f.label :title %>
-      <%= f.text_field :title, class: "form-control" %>
-    </div>
-
-    <div class="field mb-3">
-      <%= f.label :content %>
-      <%= f.text_area :content, class: "form-control", rows: 10 %>
-    </div>
-
-    <div class="field mb-3">
-      <%= f.label :files, 'Fichier' %>
-      <%= f.file_field :files, multiple: true, class: "form-control" %>
-    </div>
-
-    <div class="field mb-3">
-      <%= f.label :public, 'Article visible par tous' %>
-      <%= f.check_box :public %>
-    </div>
-
-    <%= f.submit 'Modifier Article', class: "btn btn-primary" %>
-    <% end %>
-  </div>
-
-  <br>
-
-  <%= link_to 'Retour', articles_path, class: "btn btn-secondary" %>
-</div>
+<%= render 'form', article: @article %>

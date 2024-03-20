@@ -1,34 +1,5 @@
-<h3> Nouvel article </h3>
+<h3 style="text-align: center;">Créer mon article</h3>
+<br>
+<br>
 
-<div class="container-fluid">
-  <div class="col-md-6">
-    <%= form_tag(articles_path, multipart: true) do %>
-
-    <div class="field mb-3">
-      <%= label_tag 'Titre' %>
-      <%= text_field_tag 'article[title]', nil, class: "form-control" %>
-    </div>
-
-    <div class="field mb-3">
-      <%= label_tag 'Texte' %>
-      <%= text_area_tag 'article[content]', nil, class: "form-control", rows: 10 %>
-    </div>
-
-    <div class="field mb-3">
-      <%= label_tag 'Fichier' %>
-      <%= file_field_tag 'article[files][]', multiple: true, class: "form-control" %>
-    </div>
-
-    <div class="field mb-3">
-      <%= label_tag 'Article privé' %>
-      <%= check_box_tag 'article[public]', '0', true %>
-    </div>
-
-    <%= submit_tag 'Créer Article', class: "btn btn-primary" %>
-    <% end %>
-  </div>
-
-  <br>
-
-  <%= link_to 'Retour', articles_path, class: "btn btn-secondary" %>
-</div>
+<%= render 'form', article: @article %>

@@ -1,0 +1,64 @@
+
+
+<div class="container-fluid">
+  <%= form_with(model: article, local: true, multipart: true) do |f| %>
+    <% if f.object.errors.any? %>
+      <div class="m-3">
+      <% f.object.errors.full_messages.each do |error| %>
+        <div><%= error %></div>
+      <% end %>
+    <div>
+    <% end %>
+    <div class="row">
+
+      <!-- Champs title, content, et public -->
+      <div class="col-md-10 ">
+        <div class="field mb-3">
+          <h4> Gestion des contenus :</h4>
+          <%= f.label :title %>
+          <%= f.text_field :title, class: "form-control" %>
+        </div>
+
+        <div class="field mb-3">
+          <%= f.label :description %>
+          <%= f.rich_text_area :content, class: "form-control", rows: 20 %>
+        </div>
+
+        <div class="field mb-3">
+          <%= f.label :public, 'Article visible par tous (privé par défaut)' %>
+          <%= f.check_box :public %>
+        </div>
+      </div>
+
+       <!-- Section pour afficher les fichiers attachés -->
+      <div class="col-md-5">
+        <div class="field mb-3">
+          <h4> Gestion des fichiers :</h4>
+          <%= f.label :files, 'Ajouter des fichiers' %>
+          <%= f.file_field :files, value: article.files, multiple: true, class: "form-control" %>
+        </div>
+          <% if @article.files.attached? %>
+
+        <ul>
+          <% @article.files.each do |file| %>
+            <li>
+              <%= file.filename %>
+              <%= link_to "Voir", rails_blob_url(file) %>
+              <%= link_to "Supprimer", remove_attachment_path(@article, attachment_id: file.id),
+                data: { turbo_method: :delete, turbo_confirm: 'Etes vous sûr de vouloir supprimer le fichier ?' } %>
+            </li>
+          <% end %>
+        </ul>
+  <% end %>
+
+      </div>
+
+    </div>
+
+    <%= f.submit 'Modifier Article', data: { turbo: false }, class: "btn btn-primary" %>
+
+  <% end %>
+  <br>
+
+  <%= link_to 'Retour', articles_path, class: "btn btn-secondary" %>
+</div>
