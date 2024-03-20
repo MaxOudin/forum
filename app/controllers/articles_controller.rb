@@ -1,8 +1,8 @@
 class ArticlesController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :set_article, only: [:show, :edit, :update, :destroy]
   before_action :set_user, except: [:index, :show]
-  before_action :authorize_article, only: [:new, :create, :edit, :update, :destroy]
+  before_action :set_article, only: [:show, :edit, :update, :destroy]
+  before_action :authorize_article, only: [:edit, :update, :destroy]
 
 
   def index
@@ -14,13 +14,13 @@ class ArticlesController < ApplicationController
 
   def new
     @article = Article.new
-    authorize_article @article
+    authorize @article
   end
 
   def create
     @article = Article.new(article_params)
     @article.user = current_user
-    authorize_article @article
+    authorize @article
 
     if @article.save
       flash[:notice] = "Article créé avec succès"
@@ -30,6 +30,7 @@ class ArticlesController < ApplicationController
       render :new
     end
   end
+
 
   def edit
   end
