@@ -1,5 +1,4 @@
 
-
 <div class="container-fluid">
   <%= form_with(model: article, local: true, multipart: true) do |f| %>
     <% if f.object.errors.any? %>
@@ -7,7 +6,7 @@
       <% f.object.errors.full_messages.each do |error| %>
         <div><%= error %></div>
       <% end %>
-    <div>
+      <div>
     <% end %>
     <div class="row">
 
@@ -15,50 +14,53 @@
       <div class="col-md-10 ">
         <div class="field mb-3">
           <h4> Gestion des contenus :</h4>
-          <%= f.label :title %>
-          <%= f.text_field :title, class: "form-control" %>
+          <%= f.label :title, value: "Titre de l'article" %>
+          <%= f.text_field :title, class: "form-control", style: "background-color: white;" %>
         </div>
 
         <div class="field mb-3">
-          <%= f.label :description %>
-          <%= f.rich_text_area :content, class: "form-control", rows: 20 %>
+          <%= f.label :description, value: "Contenu de l'article" %>
+          <%= f.rich_text_area :content, class: "form-control", style: "background-color: white;", rows: 30 %>
         </div>
 
-        <div class="field mb-3">
-          <%= f.label :public, 'Article visible par tous (privé par défaut)' %>
+        <div class="field mb-3" style="background-color: white;">
+          <%= f.label :public, "Veuillez cocher pour rendre l'article visible à tous", style: "background-color: white;" %>
           <%= f.check_box :public %>
         </div>
       </div>
 
-       <!-- Section pour afficher les fichiers attachés -->
+      <!-- Section pour afficher les fichiers attachés -->
       <div class="col-md-5">
         <div class="field mb-3">
           <h4> Gestion des fichiers :</h4>
-          <%= f.label :files, 'Ajouter des fichiers' %>
-          <%= f.file_field :files, value: article.files, multiple: true, class: "form-control" %>
+          <%= f.label :files %>
+          <%= f.file_field :files, value: article.files, multiple: true, class: "form-control", style: "background-color: white;" %>
         </div>
           <% if @article.files.attached? %>
-
-        <ul>
-          <% @article.files.each do |file| %>
-            <li>
-              <%= file.filename %>
-              <%= link_to "Voir", rails_blob_url(file) %>
-              <%= link_to "Supprimer", remove_attachment_path(@article, attachment_id: file.id),
-                data: { turbo_method: :delete, turbo_confirm: 'Etes vous sûr de vouloir supprimer le fichier ?' } %>
-            </li>
+            <div style="background-color: white;">
+              <h5> Fichiers déjà attachés :</h5>
+              <% @article.files.each do |file| %>
+                <div>
+                  <%= file.filename %>
+                  <%= link_to "Voir", rails_blob_url(file) %>
+                  <%= link_to "Supprimer", remove_attachment_path(@article, attachment_id: file.id),
+                      data: { turbo_method: :delete, turbo_confirm: 'Etes vous sûr de vouloir supprimer le fichier ?' } %>
+                </div>
+              <% end %>
+            </div>
           <% end %>
-        </ul>
-  <% end %>
-
       </div>
-
     </div>
 
-    <%= f.submit 'Modifier Article', data: { turbo: false }, class: "btn btn-primary" %>
-
+    <br><br>
+    
+    <div class="d-flex justify-content-evenly">
+      <% if article.persisted? %>
+        <%= f.submit 'Modifier Article', data: { turbo: false }, class: "btn btn-primary" %>
+      <% else %>
+        <%= f.submit 'Créer Article', data: { turbo: false }, class: "btn btn-primary" %>
+      <% end %>
+      <%= link_to 'Retour', articles_path, class: "btn btn-secondary" %>
+    </div>
   <% end %>
-  <br>
-
-  <%= link_to 'Retour', articles_path, class: "btn btn-secondary" %>
 </div>

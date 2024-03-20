@@ -1,31 +1,28 @@
 <div class="d-flex justify-content-center">
   <div class="col-md-4">
-
   <h3> Titre : <%= @article.title %></h3>
-
   <% if @article.public == false %>
     <p style="color: red;"> L'article est privé. </p>
   <% end %>
 
   <p> Contenu :<%= @article.content %> </p>
-
   <p> Article écrit par <%= @article.user.email %></p>
-
   <p> Crée le <%= @article.created_at.strftime("%d/%m/%Y") %></p>
 
-<hr/>
-  <% if policy(@article).update? %>
-    <%= link_to "Modifier article", edit_article_path(@article),
-    class: "btn btn-secondary" %>
-  <% end %>
-
-  <% if policy(@article).destroy? %>
-    <%= link_to "Supprimer article", @article,
-    data: { turbo_method: :delete, turbo_confirm: 'Etes vous sûr ?' },
-    class: "btn btn-secondary" %>
-  <% end %>
-
-  <%= link_to 'Retour', articles_path, class: "btn btn-secondary" %>
+  <hr/>
+    <!-- Vérification policy pour boutons -->
+    <div class="d-flex justify-content-evenly">
+      <% if policy(@article).update? %>
+        <%= link_to "Modifier article", edit_article_path(@article),
+        class: "btn btn-primary" %>
+      <% end %>
+      <% if policy(@article).destroy? %>
+        <%= link_to "Supprimer article", @article,
+        data: { turbo_method: :delete, turbo_confirm: 'Etes vous sûr ?' },
+        class: "btn btn-secondary" %>
+      <% end %>
+      <%= link_to 'Retour', articles_path, class: "btn btn-secondary" %>
+    </div>
   </div>
   <div class="col-md-1">
   </div>

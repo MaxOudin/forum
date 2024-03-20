@@ -6,7 +6,7 @@ class ArticlesController < ApplicationController
 
 
   def index
-    @articles = policy_scope(Article)
+    @articles = policy_scope(Article).order(created_at: :desc)
   end
 
   def show
@@ -14,13 +14,13 @@ class ArticlesController < ApplicationController
 
   def new
     @article = Article.new
-    authorize @article
+    authorize_article
   end
 
   def create
     @article = Article.new(article_params)
     @article.user = current_user
-    authorize @article
+    authorize_article
 
     if @article.save
       flash[:notice] = "Article créé avec succès"
@@ -36,7 +36,6 @@ class ArticlesController < ApplicationController
   end
 
   def update
-    # if @article.update(article_params)
     if @article.update(article_params.except(:files))
       update_files
       redirect_to article_path(@article), notice: "Article modifié avec succès"
