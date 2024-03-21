@@ -36,13 +36,19 @@ class ArticlesController < ApplicationController
   end
 
   def update
-    if @article.update(article_params.except(:files))
-      update_files
+    if @article.update(article_params)
       redirect_to article_path(@article), notice: "Article modifié avec succès"
     else
       flash[:error] = "Article non modifié, veuillez réessayer"
       render :edit
     end
+    # if @article.update(article_params.except(:files))
+    #   update_files
+    #   redirect_to article_path(@article), notice: "Article modifié avec succès"
+    # else
+    #   flash[:error] = "Article non modifié, veuillez réessayer"
+    #   render :edit
+    # end
   end
 
 
@@ -85,7 +91,8 @@ class ArticlesController < ApplicationController
   end
 
   def article_params
-    params.require(:article).permit(:title, :content, :public, files: [])
+    # params.require(:article).permit(:title, :content, :public, files: [])
+    params.require(:article).permit(:title, :content, :public, :cover_image)
   end
 
   def set_user
