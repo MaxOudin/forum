@@ -85,6 +85,9 @@ GEM
       tzinfo (~> 2.0)
     addressable (2.8.6)
       public_suffix (>= 2.0.2, < 6.0)
+    annotate (3.2.0)
+      activerecord (>= 3.2, < 8.0)
+      rake (>= 10.4, < 14.0)
     autoprefixer-rails (10.4.16.0)
       execjs (~> 2)
     base64 (0.2.0)
@@ -96,6 +99,11 @@ GEM
     bootstrap (5.3.2)
       autoprefixer-rails (>= 9.1.0)
       popper_js (>= 2.11.8, < 3)
+    bootstrap-icons (1.0.14)
+      nokogiri (~> 1)
+    bootstrap-icons-helper (2.0.2)
+      bootstrap-icons (~> 1)
+      rails (>= 7.0)
     builder (3.2.4)
     cairo (1.17.13)
       native-package-installer (>= 1.0.3)
@@ -164,6 +172,10 @@ GEM
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
     json (2.7.1)
+    launchy (2.5.2)
+      addressable (~> 2.8)
+    letter_opener (1.9.0)
+      launchy (>= 2.2, < 3)
     loofah (2.22.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
@@ -331,9 +343,11 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  annotate (~> 3.2)
   autoprefixer-rails
   bootsnap
-  bootstrap (~> 5.3)
+  bootstrap (~> 5.3.2)
+  bootstrap-icons-helper
   capybara
   debug
   devise
@@ -342,7 +356,10 @@ DEPENDENCIES
   image_processing (~> 1.2)
   importmap-rails
   jbuilder
-  pg (~> 1.1)
+  letter_opener
+  mini_magick
+  pg (~> 1.4)
+  popper_js
   poppler
   puma (>= 5.0)
   pundit
