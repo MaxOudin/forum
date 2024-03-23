@@ -67,6 +67,7 @@
             <div class="border border-gray-300" style="background-color: white;">
               <%= f.file_field :cover_image, direct_upload: true, data: { image_preview_target: "input", action: "change->image-preview#previewImage" }  %>
               <div data-image-preview-target="preview">
+              <div data-image-preview-target="actual"></div> <!-- Ajout de cet élément -->
 
               </div>
             </div>

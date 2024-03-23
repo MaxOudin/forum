@@ -21,14 +21,10 @@
             <!-- Vérification policy pour boutons -->
             <% if policy(article).update? %>
               <div class="d-flex justify-content-end">
-                <%= link_to "Modifier article", edit_article_path(article), class: "btn btn-primary", style: "margin-bottom: 1rem;" %>
+                <%= link_to "Modifier article", edit_article_path(article), class: "btn btn-secondary", style: "margin-bottom: 1rem;" %>
               </div>
             <% end %>
-            <% if policy(article).destroy? %>
-              <div class="d-flex justify-content-end">
-                <%= link_to "Supprimer article", article, data: { turbo_method: :delete, turbo_confirm: 'Etes vous sûr ?' }, class: "btn btn-secondary", style: "margin-bottom: 1rem;" %>
-              </div>
-            <% end %>
+
             </div>
             <div class="d-flex justify-content-end">
                 <%= link_to "Voir plus", article_path(article), class:"btn btn-primary" %>

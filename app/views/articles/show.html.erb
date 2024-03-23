@@ -14,14 +14,14 @@
     <div class="d-flex justify-content-evenly">
       <% if policy(@article).update? %>
         <%= link_to "Modifier article", edit_article_path(@article),
-        class: "btn btn-primary" %>
+        class: "btn btn-secondary" %>
       <% end %>
       <% if policy(@article).destroy? %>
         <%= link_to "Supprimer article", @article,
         data: { turbo_method: :delete, turbo_confirm: 'Etes vous sûr ?' },
         class: "btn btn-secondary" %>
       <% end %>
-      <%= link_to 'Retour', articles_path, class: "btn btn-secondary" %>
+      <%= link_to 'Retour', articles_path, class: "btn btn-primary" %>
     </div>
   </div>
   <div class="col-md-1">
