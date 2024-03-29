@@ -7,4 +7,7 @@ class User < ApplicationRecord
   # Associations
   has_many :articles, dependent: :destroy
 
+  validates :email, presence: true, uniqueness: { case_sensitive: false }
+  validates :password, presence: true, length: { minimum: 6 }
+  validates :admin, presence: true
 end

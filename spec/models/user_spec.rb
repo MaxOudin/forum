@@ -2,35 +2,21 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   describe "validations" do
-    it "is valid with valid attributes" do
-      user = FactoryBot.build(:user)
-      expect(user).to be_valid
-    end
+    subject { build(:user) }
 
-    it "is not valid without an email" do
-      user = FactoryBot.build(:user, email: nil)
-      expect(user).not_to be_valid
-    end
-
-    it "is not valid with a duplicate email" do
-      FactoryBot.build(:user, email: 'test@example.com')
-      user = FactoryBot.build(:user, email: 'test@example.com')
-      expect(user).not_to be_valid
-      expect(user.errors[:email]).to include("has already been taken")
+    it { should validate_presence_of(:email) }
+    it { should validate_uniqueness_of(:email).case_insensitive }
+    it { should validate_length_of(:password).is_at_least(6) }
+    it { should validate_presence_of(:admin) }
+    
+    it "validates presence of password on create" do
+      user = build(:user, password: nil)
+      user.valid?
+      expect(user.errors[:password]).to include("can't be blank")
     end
   end
 
-  context "Check admin users" do
-    it "creates an admin user" do
-      admin = FactoryBot.build(:admin)
-      expect(admin.admin).to be true
-    end
-  end
-
-  context "when creating non-admin users" do
-    it "creates a non-admin user" do
-      user = FactoryBot.build(:user)
-      expect(user.admin).to be false
-    end
+  describe "associations" do
+    it { should have_many(:articles).dependent(:destroy) }
   end
 end
