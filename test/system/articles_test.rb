@@ -19,4 +19,5 @@ class ArticlesTest < ApplicationSystemTestCase
     assert_selector "h2", text: "Forum"
     assert_selector ".card-body", count: Article.count
   end
+
 end

@@ -84,6 +84,7 @@ group :development, :test do
 
   # Appeler 'byebug' pour pouvoir débuguer dans la console
   gem "byebug"
+
 end
 
 group :development do
@@ -101,7 +102,15 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver" # 4.19
+  gem "rspec-rails"
+
+  # Factory Bot pour les tests
+  gem "factory_bot_rails"
 
   # Enregistre screenshots lors des tests et erreurs
   gem "launchy"
+
+  gem "shoulda-matchers"
+  gem "database_cleaner"
+  gem "pundit-matchers"
 end
