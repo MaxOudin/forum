@@ -43,14 +43,18 @@ gem "bootsnap", require: false
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 gem "image_processing", "~> 1.2"
+
+# Gem lecture de pdf
 gem "poppler"
+
+# Gem pour les images
 gem "mini_magick"
 
-# Use Devise for authentication
-gem "devise"
+# Devise for authentication
+gem "devise" # 4.9.3
 
-# Use Pundit for authorization
-gem "pundit"
+# Pundit for authorisation et politique de droits d'accès
+gem "pundit" # 2.3.1
 
 # Manage front Bootstrap CSS & JS
 gem "bootstrap", "~> 5.3.2"
@@ -68,9 +72,18 @@ group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ]
 
+  # Helper pour avoir les informations des modèles dans les fichiers
   gem 'annotate', '~> 3.2'
 
+  # Email envoyé ouvert dans navigateur
   gem "letter_opener"
+
+  # Pry pour débuggage
+  gem "pry-byebug"
+  gem "pry-rails"
+
+  # Appeler 'byebug' pour pouvoir débuguer dans la console
+  gem "byebug"
 end
 
 group :development do
@@ -87,5 +100,8 @@ end
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
-  gem "selenium-webdriver"
+  gem "selenium-webdriver" # 4.19
+
+  # Enregistre screenshots lors des tests et erreurs
+  gem "launchy"
 end
