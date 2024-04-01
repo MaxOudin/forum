@@ -5,6 +5,8 @@ class Article < ApplicationRecord
 
   validates :title, presence: true
   validates :content, presence: true
+  validates :id, presence: true, uniqueness: true
+  validates :public, inclusion: { in: [true, false] }, presence: true
 
   belongs_to :user
 

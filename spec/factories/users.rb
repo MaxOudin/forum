@@ -1,8 +1,11 @@
 FactoryBot.define do
   factory :user do
+    sequence(:id) { |n| n }
     sequence(:email) { |n| "j.doe+#{n}@email.com" }
     password { 'password' }
     admin { false }
+    created_at { Time.now }
+    updated_at { Time.now }
 
     trait :with_short_password do
       password { '12345' }
@@ -13,8 +16,3 @@ FactoryBot.define do
     end
   end
 end
-
-user = FactoryBot.build(:user) # Crée un utilisateur standard
-admin = FactoryBot.build(:user, :admin) # Crée un administrateur
-user_with_short_password = FactoryBot.build(:user, :with_short_password) # Crée un utilisateur avec un mot de passe trop court
-

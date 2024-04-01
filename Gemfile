@@ -81,9 +81,12 @@ group :development, :test do
   # Pry pour débuggage
   gem "pry-byebug"
   gem "pry-rails"
-
-  # Appeler 'byebug' pour pouvoir débuguer dans la console
   gem "byebug"
+
+  # Tests + Factory Bot pour les tests
+  gem "rspec-rails"
+  gem "factory_bot_rails"
+  gem "database_cleaner"
 
 end
 
@@ -102,15 +105,12 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver" # 4.19
-  gem "rspec-rails"
-
-  # Factory Bot pour les tests
-  gem "factory_bot_rails"
+  gem "webdrivers" # 5.2
 
   # Enregistre screenshots lors des tests et erreurs
   gem "launchy"
 
+  # Helper pour les tests Models et Pundit
   gem "shoulda-matchers"
-  gem "database_cleaner"
   gem "pundit-matchers"
 end

@@ -16,7 +16,7 @@ class ArticlePolicy < ApplicationPolicy
   end
 
   def show?
-    user.admin? || record.user == user || record.public?
+    record.public? || (user.present? && (user.admin? || record.user == user))
   end
 
   def create?
