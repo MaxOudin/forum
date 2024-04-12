@@ -1,0 +1,2 @@
+class NewCommentNotifier < Event
+end

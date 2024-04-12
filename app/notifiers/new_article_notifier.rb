@@ -1,0 +1,2 @@
+class NewArticleNotifier < Event
+end

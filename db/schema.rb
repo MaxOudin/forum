@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_20_155559) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_12_144929) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -59,6 +59,24 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_20_155559) do
     t.bigint "user_id"
     t.boolean "public", default: false
     t.index ["user_id"], name: "index_articles_on_user_id"
+  end
+
+  create_table "events", force: :cascade do |t|
+    t.string "type"
+    t.json "params"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.string "type"
+    t.bigint "event_id", null: false
+    t.string "recipent_type", null: false
+    t.bigint "recipent_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_notifications_on_event_id"
+    t.index ["recipent_type", "recipent_id"], name: "index_notifications_on_recipent"
   end
 
   create_table "users", force: :cascade do |t|
