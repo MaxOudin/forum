@@ -1,4 +1,4 @@
 class Notification < ApplicationRecord
   belongs_to :event
-  belongs_to :recipent, polymorphic: true
+  belongs_to :recipient, polymorphic: true
 end
