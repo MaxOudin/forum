@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_12_144929) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_16_124400) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -79,6 +79,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_12_144929) do
     t.index ["recipent_type", "recipent_id"], name: "index_notifications_on_recipent"
   end
 
+  create_table "permissions", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -88,11 +95,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_12_144929) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "admin", default: false
+    t.bigint "permission_id"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["permission_id"], name: "index_users_on_permission_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "articles", "users"
+  add_foreign_key "users", "permissions"
 end
