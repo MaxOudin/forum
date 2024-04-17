@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_16_124400) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_17_093434) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -79,9 +79,32 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_16_124400) do
     t.index ["recipent_type", "recipent_id"], name: "index_notifications_on_recipent"
   end
 
+  create_table "organismes", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.string "type"
+    t.bigint "user_id", null: false
+    t.bigint "social_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["social_id"], name: "index_organismes_on_social_id"
+    t.index ["user_id"], name: "index_organismes_on_user_id"
+  end
+
   create_table "permissions", force: :cascade do |t|
     t.string "name"
     t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "socials", force: :cascade do |t|
+    t.string "youtube_channel"
+    t.string "youtube_video_url"
+    t.string "x_twitter"
+    t.string "facebook_page_url"
+    t.string "linkedin_page_url"
+    t.string "instagram_page_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -104,5 +127,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_16_124400) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "articles", "users"
+  add_foreign_key "organismes", "socials"
+  add_foreign_key "organismes", "users"
   add_foreign_key "users", "permissions"
 end
