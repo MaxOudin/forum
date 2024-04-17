@@ -5,7 +5,7 @@ class Organisme < ApplicationRecord
   # Validations
   validates :name, presence: true, uniqueness: { case_sensitive: false }
   validates :description, presence: true
-  # validates :type, presence: true
+  validates :type, presence: true
 
   # Callbacks
   before_validation :assign_default_user, on: :create

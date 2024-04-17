@@ -14,5 +14,12 @@ FactoryBot.define do
     trait :admin do
       admin { true }
     end
+
+    association :permission
+
+    # Créer des notifications pour cet utilisateur
+    transient do
+      notifications_count { 3 } # Définir le nombre de notifications que vous voulez créer
+    end
   end
 end
