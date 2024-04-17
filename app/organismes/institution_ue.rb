@@ -1,0 +1,4 @@
+class InstitutionUe < Organisme
+
+
+end

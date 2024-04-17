@@ -1,0 +1,4 @@
+class InstitutionFinancement < Organisme
+
+
+end

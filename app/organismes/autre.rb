@@ -1,0 +1,4 @@
+class Autre < Organisme
+
+
+end

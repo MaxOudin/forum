@@ -1,0 +1,4 @@
+class OrganisationSocieteCivileMalgache < Organisme
+
+
+end

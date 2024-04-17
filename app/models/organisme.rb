@@ -1,11 +1,10 @@
 class Organisme < ApplicationRecord
   belongs_to :user
-  has_one :social
+  belongs_to :social, optional: true
 
   # Validations
   validates :name, presence: true, uniqueness: { case_sensitive: false }
   validates :description, presence: true
-  # validates :address, presence: true
   # validates :type, presence: true
 
   # Callbacks
@@ -16,4 +15,5 @@ class Organisme < ApplicationRecord
   def assign_default_user
     self.user ||= User.where(admin: true).first
   end
+
 end

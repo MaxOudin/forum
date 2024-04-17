@@ -1,0 +1,4 @@
+class InstitutionPubliqueMalgache < Organisme
+
+
+end

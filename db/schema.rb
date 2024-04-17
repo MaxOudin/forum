@@ -84,7 +84,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_17_093434) do
     t.text "description"
     t.string "type"
     t.bigint "user_id", null: false
-    t.bigint "social_id", null: false
+    t.bigint "social_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["social_id"], name: "index_organismes_on_social_id"

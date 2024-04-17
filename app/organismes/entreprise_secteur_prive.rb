@@ -1,0 +1,4 @@
+class EntrepriseSecteurPrive < Organisme
+
+
+end
