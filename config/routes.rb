@@ -9,6 +9,9 @@ Rails.application.routes.draw do
   resources :articles do
     resource :cover_image, only: [:destroy], module: :articles
   end
+
   # delete 'articles/:id/remove_attachment/:attachment_id', to: 'articles#remove_attachment', as: 'remove_attachment'
+  resources :organismes
+  resources :socials
 
 end

@@ -1,0 +1,60 @@
+
+<div class="container-fluid">
+  <%= form_with(model: social, local: true, multipart: true) do |f| %>
+    <% if f.object.errors.any? %>
+      <div class="m-3">
+      <% f.object.errors.full_messages.each do |error| %>
+        <div><%= error %></div>
+      <% end %>
+      <div>
+    <% end %>
+    <div class="row">
+
+      <div class="col-md-10 ">
+        <div class="field mb-3">
+          <%= f.label :name, value: "Nom de ses réseaux pour être selectionner dans organisme" %>
+          <%= f.text_field :name, class: "form-control", style: "background-color: white;" %>
+        </div>
+        <div class="field mb-3">
+          <%= f.label :youtube_channel, value: "URL de la chaine YouTube" %>
+          <%= f.text_field :youtube_channel, class: "form-control", style: "background-color: white;" %>
+        </div>
+        <div class="field mb-3">
+          <%= f.label :youtube_video_url, value: "URL de la video YouTube" %>
+          <%= f.text_field :youtube_video_url, class: "form-control", style: "background-color: white;" %>
+        </div>
+        <div class="field mb-3">
+          <%= f.label :x_twitter, value: "URL du compte X (Twitter)" %>
+          <%= f.text_field :x_twitter, class: "form-control", style: "background-color: white;", rows: 30 %>
+        </div>
+        <div class="field mb-3">
+          <%= f.label :facebook_page_url, value: "URL de la page Facebook" %>
+          <%= f.text_field :facebook_page_url, class: "form-control", style: "background-color: white;", rows: 30 %>
+        </div>
+        <div class="field mb-3">
+          <%= f.label :linkedin_page_url, value: "URL de la page LinkedIn" %>
+          <%= f.text_field :linkedin_page_url, class: "form-control", style: "background-color: white;", rows: 30 %>
+        </div>
+        <div class="field mb-3">
+          <%= f.label :instagram_page_url, value: "URL du compte Instagram" %>
+          <%= f.text_field :instagram_page_url, class: "form-control", style: "background-color: white;", rows: 30 %>
+        </div>
+
+      </div>
+
+      <div class="col-md-5">
+
+      </div>
+
+    <br><br>
+
+    <div class="d-flex justify-content-evenly">
+      <% if social.persisted? %>
+        <%= f.submit 'Modifier social', data: { turbo: false }, class: "btn btn-primary" %>
+      <% else %>
+        <%= f.submit 'Créer social', data: { turbo: false }, class: "btn btn-primary" %>
+      <% end %>
+      <%= link_to "Retour à l'accueil", root_path, class: "btn btn-secondary" %>
+    </div>
+  <% end %>
+</div>
