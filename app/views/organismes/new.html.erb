@@ -1,4 +1,51 @@
 <h3 style="text-align: center;">Créer mon organisme</h3>
 <br>
 
-<%= render 'form', organisme: @organisme %>
+
+<div class="container-fluid">
+<%= form_with(model: @organisme, local: true) do |f| %>
+    <% if f.object.errors.any? %>
+      <div class="m-3">
+      <% f.object.errors.full_messages.each do |error| %>
+        <div><%= error %></div>
+      <% end %>
+      <div>
+    <% end %>
+    <div class="row">
+
+      <!-- Champs name, description, type -->
+      <div class="col-md-10 ">
+        <div class="field mb-3">
+          <%= f.label :name, value: "Nom de l'organisme" %>
+          <%= f.text_field :name, class: "form-control", style: "background-color: white;" %>
+        </div>
+
+        <div class="field mb-3">
+          <%= f.label :description, value: "Description de l'organisme" %>
+          <%= f.text_field :description, class: "form-control", style: "background-color: white;", rows: 30 %>
+        </div>
+
+        <div class="field mb-3" style="background-color: white;">
+          <%= f.label :social_id, "Sélectionner un réseau social", style: "background-color: white;" %>
+          <%= f.collection_select :social_id, Social.order(:name), :id, :name, {}, class: "form-control" %>
+        </div>
+
+        <div class="field mb-3" style="background-color: white;">
+          <%= f.label :type, "Veuillez sélectionner le type d'organisme", style: "background-color: white;" %>
+          <%= f.select :type, Organisme.descendants.map(&:name), {}, class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="col-md-5">
+
+      </div>
+
+
+    <br><br>
+
+    <div class="d-flex justify-content-evenly">
+        <%= f.submit 'Créer Organisme', data: { turbo: false }, class: "btn btn-primary" %>
+      <%= link_to 'Retour aux organismes', organismes_path, class: "btn btn-secondary" %>
+    </div>
+  <% end %>
+</div>

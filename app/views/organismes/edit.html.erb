@@ -29,11 +29,6 @@
           <%= f.label :social_id, "Sélectionner un réseau social", style: "background-color: white;" %>
           <%= f.collection_select :social_id, Social.order(:name), :id, :name, {}, class: "form-control" %>
         </div>
-
-        <div class="field mb-3" style="background-color: white;">
-          <%= f.label :type, "Veuillez sélectionner le type d'organisme", style: "background-color: white;" %>
-          <%= f.select :type, Organisme.descendants.map(&:name), {}, class: "form-control" %>
-        </div>
       </div>
 
       <div class="col-md-5">
@@ -44,11 +39,7 @@
     <br><br>
 
     <div class="d-flex justify-content-evenly">
-      <% if organisme.persisted? %>
-        <%= f.submit 'Modifier Organisme', data: { turbo: false }, class: "btn btn-primary" %>
-      <% else %>
-        <%= f.submit 'Créer Organisme', data: { turbo: false }, class: "btn btn-primary" %>
-      <% end %>
+      <%= f.submit 'Modifier Organisme', data: { turbo: false }, class: "btn btn-primary" %>
       <%= link_to 'Retour aux organismes', organismes_path, class: "btn btn-secondary" %>
     </div>
   <% end %>

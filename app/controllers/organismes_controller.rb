@@ -40,8 +40,6 @@ class OrganismesController < ApplicationController
   end
 
   def destroy
-    @organisme = Organisme.base_class.find(params[:id])
-
     if @organisme.destroy
       flash[:notice] = "Organisme supprimé avec succès"
       redirect_to organismes_path, status: :see_other
