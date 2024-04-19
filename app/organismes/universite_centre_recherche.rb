@@ -1,4 +1,3 @@
 class UniversiteCentreRecherche < Organisme
 
-
 end

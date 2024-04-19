@@ -9,6 +9,10 @@
 
 <% @organismes.each do |organisme| %>
   <div>
+    <% if organisme.logo.attached? %>
+      <%= image_tag organisme.logo.variant(:thumb) %>
+      <br>
+    <% end %>
     <%= organisme.name %>
     <%= organisme.type %>
 
