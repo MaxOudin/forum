@@ -61,8 +61,6 @@ def create_organisme(row)
   end
 end
 
-
-
 # Chemin vers le fichier CSV
 csv_file = "db/export_entity_type.csv"
 
