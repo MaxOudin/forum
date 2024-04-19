@@ -1,0 +1,35 @@
+<h3>Social links</h3>
+<%= form.fields_for :social do |social_form| %>
+  <div class="field my-4">
+    <%= social_form.label :youtube_channel %>
+    <%= social_form.text_field :youtube_channel, class: "form-control bg-white" %>
+  </div>
+  <div class="field my-4">
+    <%= social_form.label :youtube_video_url %>
+    <%= social_form.text_field :youtube_video_url, class: "form-control bg-white" %>
+  </div>
+  <div class="field my-4">
+    <%= social_form.label :x_twitter %>
+    <%= social_form.text_field :x_twitter, class: "form-control bg-white" %>
+  </div>
+  <div class="field my-4">
+    <%= social_form.label :facebook_page_url %>
+    <%= social_form.text_field :facebook_page_url, class: "form-control bg-white" %>
+  </div>
+  <div class="field my-4">
+    <%= social_form.label :linkedin_page_url %>
+    <%= social_form.text_field :linkedin_page_url, class: "form-control bg-white" %>
+  </div>
+  <div class="field my-4">
+    <%= social_form.label :instagram_page_url %>
+    <%= social_form.text_field :instagram_page_url, class: "form-control bg-white" %>
+  </div>
+  <div class="field my-4">
+    <%= social_form.label :name %>
+    <%= social_form.text_field :name, class: "form-control bg-white" %>
+  </div>
+  <div class="field my-4">
+    <%= social_form.label :website_url %>
+    <%= social_form.text_field :website_url, class: "form-control bg-white" %>
+  </div>
+<% end %>

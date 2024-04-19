@@ -1,14 +1,16 @@
 
 <div class="container-fluid">
 <%= form_with(model: organisme, local: true, multipart: true, url: organisme.persisted? ? organisme_path(organisme) : organisme.new_record? ? organismes_path : '') do |f| %>
-    <% if f.object.errors.any? %>
-      <div class="m-3">
-      <% f.object.errors.full_messages.each do |error| %>
-        <div><%= error %></div>
-      <% end %>
-      <div>
-    <% end %>
-    <div class="row">
+  <% if organisme.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(organisme.errors.count, "error") %> prevented this organisme from being saved:</h2>
+      <ul>
+        <% organisme.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
 
       <!-- Champs name, description, type -->
       <div class="col-md-10 ">
@@ -22,15 +24,18 @@
           <%= f.text_field :description, class: "form-control", style: "background-color: white;", rows: 30 %>
         </div>
 
-        <div class="field mb-3" style="background-color: white;">
-          <%= f.label :social_id, "Sélectionner un réseau social", style: "background-color: white;" %>
-          <%= f.collection_select :social_id, Social.order(:name), :id, :name, {}, class: "form-control" %>
+        <% if organisme.persisted? %>
+        <div class="field mb-3">
+          <%= render 'shared/social_form', form: f %>
         </div>
+        <% end -%>
 
-        <div class="field mb-3" style="background-color: white;">
-          <%= f.label :type, "Veuillez sélectionner le type d'organisme", style: "background-color: white;" %>
-          <%= f.select :type, Organisme.descendants.map(&:name), {}, class: "form-control" %>
+        <% if params[:action].include?('new') %>
+        <div class="field mb-3">
+          <%= f.label :type, "Veuillez sélectionner le type d'organisme" %>
+          <%= f.select :type, Organisme.types_for_select, include_blank: "Veuillez sélectionner", class: "form-control", style: "background-color: white;" %>
         </div>
+        <% end -%>
       </div>
 
       <div class="col-md-5">
@@ -41,12 +46,7 @@
     <br><br>
 
     <div class="d-flex justify-content-evenly">
-      <% if organisme.persisted? %>
-        <%= f.submit 'Modifier Organisme', data: { turbo: false }, class: "btn btn-primary" %>
-      <% else %>
-        <%= f.submit 'Créer Organisme', data: { turbo: false }, class: "btn btn-primary" %>
-      <% end %>
-      <%= link_to 'Retour aux organismes', organismes_path, class: "btn btn-secondary" %>
+      <%= f.submit "#{params[:action].include?('edit')? 'Modifier Organisme' : 'Créer Organisme'}", class: 'px-4 py-2' %>
     </div>
   <% end %>
 </div>

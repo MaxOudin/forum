@@ -1,9 +1,7 @@
 class OrganismesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_user
-  before_action :set_organisme, only: [:show, :edit, :update, :destroy]
-  before_action :set_socials, only: [:new, :edit]
-
+  before_action :set_organisme, only: [:show, :edit, :update, :destroy ]
   def index
     @organismes = Organisme.all.order(name: :desc)
   end
@@ -13,6 +11,7 @@ class OrganismesController < ApplicationController
 
   def new
     @organisme = Organisme.new
+    @organisme.build_social
   end
 
   def create
@@ -31,7 +30,6 @@ class OrganismesController < ApplicationController
   end
 
   def update
-
     if @organisme.update(organisme_params_update(@organisme[:type]))
       redirect_to organisme_path(@organisme), notice: "Organisme modifié avec succès"
     else
@@ -53,14 +51,34 @@ class OrganismesController < ApplicationController
   private
 
   def organisme_params
-    params.require(:organisme).permit(:name, :description, :logo, :type, :user_id, :social_id)
+    params.require(:organisme).permit(:name,
+                                      :description,
+                                      :logo,
+                                      :user_id,
+                                      :type,
+                                      social_attributes: [:id,
+                                                          :youtube_channel,
+                                                          :youtube_video_url,
+                                                          :x_twitter,
+                                                          :facebook_page_url,
+                                                          :linkedin_page_url,
+                                                          :instagram_page_url,
+                                                          :website_url])
   end
 
   def organisme_params_update(type)
-    params.require(type.underscore).permit(:name, :description, :logo, :user_id, :social_id)
-    # params <ActionController::Parameters {"_method"=>"patch", "authenticity_token"=>"0B6oTKP3_McsveGjAC-VC_nF_2dBEW95PuV_B6H6TBCQRWrupRCkxRVuOwrtUoajHr6P28sujDW5zFZxa3ww9w", "ong_fondation_internationale"=>{"name"=>"test ONG", "description"=>"test descr ong test modification", "social_id"=>"1"}, "commit"=>"Modifier Organisme", "controller"=>"organismes", "action"=>"update", "id"=>"3"} permitted: false>
-    # @organisme => #<OngFondationInternationale id: 3, name: "test ONG", description: "test descr ong", type: "OngFondationInternationale", user_id: 1, social_id: nil, created_at: "2024-04-17 19:46:16.780842000 +0000", updated_at: "2024-04-17 19:46:16.780842000 +0000">
-
+    params.require(type.underscore).permit(:name,
+                                           :description,
+                                           :logo,
+                                           :user_id,
+                                           social_attributes: [:id,
+                                                               :youtube_channel,
+                                                               :youtube_video_url,
+                                                               :x_twitter,
+                                                               :facebook_page_url,
+                                                               :linkedin_page_url,
+                                                               :instagram_page_url,
+                                                               :website_url])
   end
 
   def set_organisme
@@ -71,15 +89,15 @@ class OrganismesController < ApplicationController
     @user = current_user
   end
 
-  def set_socials
-    @socials = Social.order(:name)
+  def social_params
+    params.require(:social).permit(:name,
+                                   :facebook_page_url,
+                                   :youtube_video_url,
+                                   :youtube_channel,
+                                   :x_twitter,
+                                   :linkedin_page_url,
+                                   :instagram_page_url,
+                                   :website_url,
+                                   :organisme_id)
   end
-
-  # def organisme_class
-  #   @organisme_class ||= @organisme.type.camelcase.constantize
-  # end
-
-  # def organisme_type_params(type)
-  #   organisme_class.permitted_attributes_from_params(params)
-  # end
 end

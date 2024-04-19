@@ -1,4 +1,5 @@
 <h2><%= @organisme.name %></h2>
+<p><strong><%= @organisme.type%></strong></p>
 
 <% if @organisme.logo.attached? %>
   <div>
@@ -8,7 +9,7 @@
 <% end %>
 
 <p><%= @organisme.description %></p>
-
+<p>Nom du réseau Project Manager : <%= @organisme.user.email %></p>
 <br>
 
 <% if @organisme.social %>
@@ -24,5 +25,5 @@
   <p>Ce organisme n'a pas de données sociales associées.</p>
 <% end %>
 
-
+<%= link_to "Modifier", edit_organisme_path(@organisme), class: "btn btn-secondary" %>
 <%= link_to 'Retour aux organismes', organismes_path %>
