@@ -1,6 +1,6 @@
 
 <div class="container-fluid">
-<%= form_with(model: organisme, local: true, multipart: true, url: organisme.persisted? ? organisme_path(organisme) : organisme.new_record? ? organisme_path : '') do |f| %>
+<%= form_with(model: organisme, local: true, multipart: true, url: organisme.persisted? ? organisme_path(organisme) : organisme.new_record? ? organismes_path : '') do |f| %>
     <% if f.object.errors.any? %>
       <div class="m-3">
       <% f.object.errors.full_messages.each do |error| %>

@@ -1,4 +1,18 @@
 <h2><%= @organisme.name %></h2>
 
 <p><%= @organisme.description %></p>
-<p><%= @organisme.description %></p>
+
+<% if @organisme.social %>
+  <p><%= @organisme.social.name ? "Nom du réseau social : " + @organisme.social.name : "" %></p>
+  <p><%= @organisme.social.youtube_channel ? "Chaîne YouTube : " + @organisme.social.youtube_channel : "" %></p>
+  <p><%= @organisme.social.youtube_video_url ? "URL de la vidéo YouTube : " + @organisme.social.youtube_video_url : "" %></p>
+  <p><%= @organisme.social.facebook_page_url ? "Compte Meta (Facebook) : " + @organisme.social.facebook_page_url : "" %></p>
+  <p><%= @organisme.social.x_twitter ? "Compte X (Twitter) : " + @organisme.social.x_twitter : "" %></p>
+  <p><%= @organisme.social.linkedin_page_url ? "URL de la page LinkedIn : " + @organisme.social.linkedin_page_url : "" %></p>
+  <p><%= @organisme.social.instagram_page_url ? "URL de la page Instagram : " + @organisme.social.instagram_page_url : "" %></p>
+<% else %>
+  <p>Ce organisme n'a pas de données sociales associées.</p>
+<% end %>
+
+
+<%= link_to 'Retour aux organismes', organismes_path %>

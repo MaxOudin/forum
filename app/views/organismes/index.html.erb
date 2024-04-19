@@ -1,15 +1,20 @@
 <h2> Index organismes </h2>
 
 <div>
-  <%= link_to "Nouvel organisme", new_organisme_path %>
+  <%= link_to "Nouvel organisme", new_organisme_path, class: "btn btn-primary" %>
 </div>
+
+<br>
+<br>
 
 <% @organismes.each do |organisme| %>
   <div>
     <%= organisme.name %>
     <%= organisme.type %>
 
-    <%= link_to "Voir detail", organisme_path(organisme) %>
-    <%= link_to "Modifier", edit_organisme_path(organisme) %>
+    <%= link_to "Voir detail", organisme_path(organisme), class: "btn btn-primary" %>
+    <%= link_to "Modifier", edit_organisme_path(organisme), class: "btn btn-secondary" %>
   </div>
+  <br>
+  
 <% end %>

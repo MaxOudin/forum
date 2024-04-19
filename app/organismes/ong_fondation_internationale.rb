@@ -1,3 +1,4 @@
 class OngFondationInternationale < Organisme
+  
 
 end
