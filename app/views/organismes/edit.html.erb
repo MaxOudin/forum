@@ -31,6 +31,10 @@
           <br>
           <%= link_to 'Créer Socials', new_social_path, class: "btn btn-primary" %>
         </div>
+        <div class="field mb-3">
+          <%= f.label :logo, value: "Logo de l'organisme" %>
+          <%= f.file_field :logo, class: "form-control", style: "background-color: white;" %>
+        </div>
     <br>
       </div>
 

@@ -42,7 +42,7 @@ class SocialsController < ApplicationController
   private
 
   def social_params
-    params.require(:social).permit(:name, :youtube_channel, :youtube_video_url, :x_twitter, :facebook_page_url, :linkedin_page_url, :instagram_page_url)
+    params.require(:social).permit(:name, :website_url, :youtube_channel, :youtube_video_url, :x_twitter, :facebook_page_url, :linkedin_page_url, :instagram_page_url)
   end
 
   def set_social

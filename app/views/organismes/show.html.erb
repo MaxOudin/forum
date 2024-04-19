@@ -1,9 +1,19 @@
 <h2><%= @organisme.name %></h2>
 
+<% if @organisme.logo.attached? %>
+  <div>
+    <%= image_tag @organisme.logo.variant(:thumb) %>
+  </div>
+  <br>
+<% end %>
+
 <p><%= @organisme.description %></p>
+
+<br>
 
 <% if @organisme.social %>
   <p><%= @organisme.social.name ? "Nom du réseau social : " + @organisme.social.name : "" %></p>
+  <p><%= @organisme.social.website_url ? "Nom du réseau social : " + @organisme.social.website_url : "" %></p>
   <p><%= @organisme.social.youtube_channel ? "Chaîne YouTube : " + @organisme.social.youtube_channel : "" %></p>
   <p><%= @organisme.social.youtube_video_url ? "URL de la vidéo YouTube : " + @organisme.social.youtube_video_url : "" %></p>
   <p><%= @organisme.social.facebook_page_url ? "Compte Meta (Facebook) : " + @organisme.social.facebook_page_url : "" %></p>

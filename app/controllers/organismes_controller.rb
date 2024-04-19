@@ -53,11 +53,11 @@ class OrganismesController < ApplicationController
   private
 
   def organisme_params
-    params.require(:organisme).permit(:name, :description, :type, :user_id, :social_id)
+    params.require(:organisme).permit(:name, :description, :logo, :type, :user_id, :social_id)
   end
 
   def organisme_params_update(type)
-    params.require(type.underscore).permit(:name, :description, :user_id, :social_id)
+    params.require(type.underscore).permit(:name, :description, :logo, :user_id, :social_id)
     # params <ActionController::Parameters {"_method"=>"patch", "authenticity_token"=>"0B6oTKP3_McsveGjAC-VC_nF_2dBEW95PuV_B6H6TBCQRWrupRCkxRVuOwrtUoajHr6P28sujDW5zFZxa3ww9w", "ong_fondation_internationale"=>{"name"=>"test ONG", "description"=>"test descr ong test modification", "social_id"=>"1"}, "commit"=>"Modifier Organisme", "controller"=>"organismes", "action"=>"update", "id"=>"3"} permitted: false>
     # @organisme => #<OngFondationInternationale id: 3, name: "test ONG", description: "test descr ong", type: "OngFondationInternationale", user_id: 1, social_id: nil, created_at: "2024-04-17 19:46:16.780842000 +0000", updated_at: "2024-04-17 19:46:16.780842000 +0000">
 

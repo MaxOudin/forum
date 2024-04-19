@@ -1,5 +1,7 @@
 <h2> Forum </h2>
 
+<%= link_to "Créer un article", new_article_path, class: "btn btn-primary", style: "margin-bottom: 1rem;" %>
+
 <div class="row">
   <% @articles.each do |article| %>
     <div class="col-md-4">

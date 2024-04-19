@@ -1,6 +1,10 @@
 class Organisme < ApplicationRecord
   belongs_to :user
   belongs_to :social, optional: true
+  has_one_attached :logo do |attachable|
+    attachable.variant :thumb, resize_to_limit: [100, 100]
+  end
+
 
   # Validations
   validates :name, presence: true, uniqueness: { case_sensitive: false }
