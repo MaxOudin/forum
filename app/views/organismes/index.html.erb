@@ -14,10 +14,11 @@
       <br>
     <% end %>
     <%= organisme.name %>
-    <%= organisme.type %>
+    <strong><%= organisme.type %></strong>
 
     <%= link_to "Voir detail", organisme_path(organisme), class: "btn btn-primary" %>
     <%= link_to "Modifier", edit_organisme_path(organisme), class: "btn btn-secondary" %>
+    <%= link_to "Supprimer", organisme_path(organisme), data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' },class: "btn btn-danger" %>
   </div>
   <br>
 
