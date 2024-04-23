@@ -114,3 +114,5 @@ group :test do
   gem "shoulda-matchers"
   gem "pundit-matchers"
 end
+
+gem "aws-sdk-s3", require: false
