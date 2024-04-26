@@ -7,10 +7,14 @@ export default class extends Controller {
 
   connect() {
     this.previewImage();
+    // console.log('Stimulus image_preview est lancé !');
   }
 
   previewImage() {
     console.log('Méthode previewImage appelée');
+    console.log('this.inputTarget:', this.inputTarget);
+    console.log('this.previewTarget:', this.previewTarget);
+    console.log('input files qui passe dans le if:', this.inputTarget.files);
     const input = this.inputTarget;
     const preview = this.previewTarget;
     const actual = this.actualTarget;

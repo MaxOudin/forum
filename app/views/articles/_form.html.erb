@@ -30,28 +30,6 @@
       </div>
 
       <div class="col-md-5">
-       <%# Section pour afficher les fichiers attachés %>
-          <%# <%= f.label :files %>
-          <%# <%= f.file_field :files, value: article.files, multiple: true, class: "form-control", style: "background-color: white;" %>
-        <%# </div> %>
-
-       <%#   <% if @article.files.attached? %>
-          <%#  <div style="background-color: white;">
-            <%#  <h5> Fichiers déjà attachés :</h5>
-            <%#  <% @article.files.each do |file| %>
-             <%#   <div>
-            <%#     <% <%= file.filename %>
-            <%#      <%= link_to "Voir", rails_blob_url(file) %>
-            <%#      <%= link_to "Supprimer", remove_attachment_path(@article, attachment_id: file.id),
-                      data: { turbo_method: :delete, turbo_confirm: 'Etes vous sûr de vouloir supprimer le fichier ?' } %>
-            <%#    </div>
-           <%#   <% end %>
-         <%#   </div>
-        <%#  <% end %>
-
-      <%# </div> %>
-
-      <!-- Test preview controller fichiers attachés -->
 
           <div class="flex flex-col m-3" data-controller="image-preview">
             <%= f.label :cover_image, value: "Image associée à l'article" %>
@@ -71,7 +49,6 @@
               </div>
             </div>
           </div>
-      <!-- Fin de test -->
 
         </div>
     </div>
