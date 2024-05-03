@@ -1,0 +1,2 @@
+class MembreConsortium < OrganismeProject
+end

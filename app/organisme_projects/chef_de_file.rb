@@ -1,0 +1,2 @@
+class ChefDeFile < OrganismeProject
+end

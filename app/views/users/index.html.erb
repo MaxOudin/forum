@@ -1,0 +1,25 @@
+<h1>Liste des utilisateurs</h1>
+
+<% if current_user.admin? %>
+  <%= link_to 'Nouvel Utilisateur', new_user_registration_path, class: 'btn btn-primary mb-5' %>
+<% end %>
+
+<% User.roles.keys.each do |role| %>
+<hr>
+<div class="container">
+<h2><strong><u><%= role.titleize %></u></strong></h2>
+<div class="d-flex flex-wrap m-3">
+<% @users.where(role: role).each do |user| %>
+  <div id="<%= dom_id(user) %>" class="border border-rounded m-2 p-3 col-md-4 bg-white">
+    <h3><%= user.email %></h3>
+    <p>Role : <%= user.role %></p>
+
+    <%= render 'managed_proj_or_org', user: user %>
+    <%= link_to 'Détail', user_path(user), class: "btn btn-primary" %>
+    <%= link_to "Supprimer", user_path(user), data: { turbo_method: :delete, turbo_confirm: 'Êtes-vous sûr ?' }, class: 'btn btn-danger' %>
+  </div>
+<% end -%>
+</div>
+<hr>
+</div>
+<% end %>

@@ -1,0 +1,2 @@
+class EmTeiProject < Project
+end

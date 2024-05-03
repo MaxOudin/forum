@@ -1,0 +1,2 @@
+class TeiProject < Project
+end

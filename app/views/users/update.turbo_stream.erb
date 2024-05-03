@@ -1,0 +1,5 @@
+<% if @user.errors.any? %>
+  <%= turbo_stream.update "form_errors", partial: "form_errors", locals: { user: @user } %>
+<% else %>
+  <%= turbo_stream.replace "user_email", @user.email %>
+<% end %>

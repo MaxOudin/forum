@@ -1,0 +1,103 @@
+<h1><%= params[:action].include?('edit') ? "Édition de #{@project.title}" : "Création d'un Projet" %></h1>
+<hr>
+<%= form_with(model: @project, local: true, data: { controller: "organisme" }) do |form| %>
+  <% if @project.errors.any? %>
+    <div id="error_explanation" class="alert alert-danger">
+      <h2><%= pluralize(@project.errors.count, "error") %> prevented this project from being saved:</h2>
+      <ul>
+        <% @project.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="container-fluid" data-controller="visibility modal" data-visibility-hidden-class="hidden">
+    <h2>Informations</h2>
+    <div class="form-group">
+      <%= form.label :title, "Titre du projet", class: "form-label mt-4 mb-2" %>
+      <%= form.text_field :title, class: 'form-control bg-white' %>
+    </div>
+    <div class="form-group">
+      <%= form.label :description, "Description du projet", class: "form-label mt-4 mb-2" %>
+      <%= form.text_area :description, class: 'form-control bg-white' %>
+    </div>
+    <div class="form-row d-flex justify-content-around text-center">
+      <div class="col-md-4">
+        <%= form.label :start_date, "Date de début", class: "form-label mt-4 mb-2 text-center" %>
+        <%= form.date_select :start_date, {}, { class: 'form-control bg-white' } %>
+      </div>
+      <div class="col-md-4">
+        <%= form.label :end_date, "Date de fin", class: "form-label mt-4 mb-2" %>
+        <%= form.date_select :end_date, {}, { class: 'form-control bg-white' } %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= form.label :budget, "Budget", class: "form-label mt-4 mb-2" %>
+      <%= form.number_field :budget, class: 'form-control bg-white' %>
+    </div>
+    <hr>
+
+    <% if params[:action].include?('new') %>
+      <h2>Organisme Chef de File</h2>
+      <br>
+      <%= button_tag "Choisir un Organisme Existant", type: 'button', id: 'toggleButton', data: { action: "click->visibility#toggle", visibility_target: "button" }, class: "btn btn-info" %>
+
+      <div data-visibility-target="chooseOrg" class="hidden">
+        <%= form.label :organisme_id, "Sélectionnez un Organisme", class: 'form-label mt-4 mb-2' %>
+        <%= form.collection_select :organisme_id, @organismes, :id, :name, { prompt: "Veuillez sélectionner" }, { class: 'form-control', data: { organisme_target: "select", action: "change->organisme#change" } } %>
+      </div>
+
+      <div data-visibility-target="createOrg" class="hidden">
+        <%= form.label :new_organisme_name, "Nom du nouvel Organisme", class: "form-label mt-4 mb-2" %>
+        <%= form.text_field :new_organisme_name, class: 'form-control bg-white' %>
+        <%= form.label :org_type, "Veuillez sélectionner le type d'organisme", class: "form-label mt-4 mb-2" %>
+        <%= form.select :org_type, Organisme.types_for_select, { include_blank: "Veuillez sélectionner" }, class: "form-control bg-white" %>
+      </div>
+      <hr>
+      <h2>Editeur du Projet</h2>
+      <br>
+      <%= button_tag "Choisir un Manager", type: 'button', id: 'toggleButtonManager', data: { action: "click->visibility#toggleManager", visibility_target: "button" }, class: "btn btn-info" %>
+
+      <div data-visibility-target="chooseManager" class="hidden">
+          <%= turbo_frame_tag 'org_project_manager_frame', target: 'organisme.managerSelect' do %>
+            <%= form.label :org_proj_man_id, "Sélectionnez un Manager" %>
+            <%= form.collection_select :org_proj_man_id, User.none, :id, :email, { include_blank: true }, { disabled: true, data: { organisme_target: "managerSelect" } } %>
+          <% end %>
+      </div>
+
+      <div data-visibility-target="createManager" class="hidden">
+        <%= form.label :org_project_manager_email, "Entrez l'email du nouvel Org Project Manager", class: 'form-label mt-4 mb-2' %>
+        <%= form.email_field :org_project_manager_email, class: 'form-control bg-white' %>
+      </div>
+      <br>
+      <hr>
+      <br>
+    <% end -%>
+    <% if params[:action].include?('edit') %>
+      <h3>Organismes</h3>
+      <h3><strong>Chef de File :</strong>
+      <%= link_to @project.organisme_projects.first.organisme.name, organisme_path(@project.organismes.first), style: 'color: blue' %></h3>
+      <em><%= @project.org_project_manager.email %></em>
+      <br>
+      <br>
+      <%= turbo_frame_tag "organisme_projects_list" do %>
+        <%= render 'organisme_projects/list', organisme_projects: @project.organisme_projects %>
+      <% end %>
+
+      <%= turbo_frame_tag "organisme_project_form" do %>
+        <%= render 'organisme_projects/form', organisme_project: OrganismeProject.new, project: @project, form: form %>
+      <% end %>
+    <br>
+    <hr>
+    <br>
+    <%#= form.label :org_project_manager_id, "Email du nouvel Org Project Manager", class: 'form-label mt-4 mb-2' %>
+    <%#= form.collection_select :org_project_manager_id, @project.chef_de_file_managers, :id, :email, { include_blank: true }, class: "form-control bg-white" %>
+      <%= render 'shared/social_form', form: form %>
+    <% end -%>
+    <%= form.submit "#{params[:action].include?('edit') ? 'Éditer le projet' : 'Créer le projet'}", class: 'btn btn-outline-primary' %>
+    <%= link_to 'Annuler', projects_path, class: 'btn btn-outline-secondary' %>
+    </div>
+
+  </div>
+</div>
+<% end %>

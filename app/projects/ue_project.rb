@@ -1,0 +1,2 @@
+class UeProject < Project
+end

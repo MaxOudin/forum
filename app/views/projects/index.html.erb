@@ -1,0 +1,17 @@
+<h1>Index projets</h1>
+<hr>
+<%= link_to 'Créer un Projet', new_project_path, class: "btn btn-primary" %>
+
+<% @projects.each do |proj| %>
+<%= link_to project_path(proj) do %>
+  <div class="border border-outline-secondary col-md-4 p-3 m-3 d-flex flex-column">
+    <h2><%= proj.title %></h2>
+    <p>Program Manager : <%= proj.manager.email %></p>
+        <p>Org Project Manager : <%= proj.chef_de_file&.org_project_manager&.email || 'Personne' %></p>
+    <div class="d-flex">
+      <%= link_to 'Modifier', edit_project_path(proj), class: 'btn btn-secondary m-2 px-3' %>
+      <%= link_to 'Supprimer', project_path(proj), data: { turbo_method: :delete, turbo_confirm: 'Êtes-vous sûr de vouloir supprimer ce projet ?' }, class: 'btn btn-danger m-2 px-3' %>
+    </div>
+  </div>
+<% end -%>
+<% end -%>

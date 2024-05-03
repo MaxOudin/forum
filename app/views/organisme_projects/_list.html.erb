@@ -1,0 +1,25 @@
+<% ['MembreConsortium', 'Cofinanceur'].each do |type| %>
+  <h4><strong><%= type %></strong></h4>
+  <% organisme_projects.where(type: type).each do |op| %>
+    <% if op.persisted? %>
+      <% next if @project.organisme_projects.index(op) == 0 && op.type == "ChefDeFile" %>
+
+        <div class="d-flex justify-content-between align-items-center border border-secondary border-rounded col-md-4 m-4 p-2" style="list-style: none;">
+          <div class="col-md-6">
+          <div>
+            <h6></h6><strong><%= op.organisme.name %></strong>
+            <p>Budget : <%= op.budget %> €</p>
+          </div>
+          <div>
+            <%#= link_to "Fiche", organisme_path(op.organisme), class: 'btn btn-primary m-2 px-3' %>
+            <%= link_to 'Delete', project_organisme_project_path(op.project, op),
+                        method: :delete,
+                        data: { confirm: 'Are you sure?' },
+                        class: 'btn btn-danger m-1 px-3' %>
+          </div>
+          <p><%= op.organisme.org_manager.email %></p>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+<% end -%>

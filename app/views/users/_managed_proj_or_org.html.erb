@@ -1,0 +1,21 @@
+<% if user.org_project_manager? && user.organisme_projects_managed.any? %>
+<div class="border p-3 bg-white">
+  <h4><u>Managed Projects :</u></h4>
+  <ul>
+    <% user.organisme_projects_managed.each do |op| %>
+      <li>nom : <%= link_to op.project.title, project_path(op.project), style: 'color: blue' %></li>
+      <li>Chef de file : <%= link_to op.organisme.name, organisme_path(op.organisme), style: 'color: blue' %></li>
+    <% end -%>
+  </ul>
+  </div>
+<% end -%>
+
+<% if user.org_manager? && user.organisme_managed.any? %>
+<div class="border p-2">
+  <h4><u>Organisme</u></h4>
+  <%= link_to organisme(user).name, organisme_path(organisme(user)), style: 'color: blue' %>
+
+</div>
+
+<% end -%>
+<p>Créé : <%= user.created_at %></p>

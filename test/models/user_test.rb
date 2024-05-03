@@ -11,7 +11,7 @@
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  admin                  :boolean          default(FALSE)
-#  permission_id          :bigint
+#  role                   :integer          default("admin_ue"), not null
 #
 require "test_helper"
 

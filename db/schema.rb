@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_19_155100) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_30_114916) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -79,21 +79,44 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_19_155100) do
     t.index ["recipent_type", "recipent_id"], name: "index_notifications_on_recipent"
   end
 
+  create_table "organisme_projects", force: :cascade do |t|
+    t.string "type"
+    t.bigint "organisme_id", null: false
+    t.bigint "project_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "org_project_manager_id"
+    t.bigint "budget", default: 0
+    t.index ["org_project_manager_id"], name: "index_organisme_projects_on_org_project_manager_id"
+    t.index ["organisme_id"], name: "index_organisme_projects_on_organisme_id"
+    t.index ["project_id"], name: "index_organisme_projects_on_project_id"
+  end
+
   create_table "organismes", force: :cascade do |t|
     t.string "name"
     t.text "description"
     t.string "type"
-    t.bigint "user_id", null: false
+    t.bigint "org_manager_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_organismes_on_user_id"
+    t.index ["org_manager_id"], name: "index_organismes_on_org_manager_id"
   end
 
-  create_table "permissions", force: :cascade do |t|
-    t.string "name"
+  create_table "projects", force: :cascade do |t|
+    t.string "title"
     t.text "description"
+    t.date "start_date"
+    t.date "end_date"
+    t.bigint "budget"
+    t.bigint "manager_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "type"
+    t.integer "status", default: 0, null: false
+    t.boolean "published", default: false, null: false
+    t.bigint "social_id"
+    t.index ["manager_id"], name: "index_projects_on_manager_id"
+    t.index ["social_id"], name: "index_projects_on_social_id"
   end
 
   create_table "socials", force: :cascade do |t|
@@ -121,15 +144,17 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_19_155100) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "admin", default: false
-    t.bigint "permission_id"
+    t.integer "role", default: 0, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["permission_id"], name: "index_users_on_permission_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "articles", "users"
-  add_foreign_key "organismes", "users"
-  add_foreign_key "users", "permissions"
+  add_foreign_key "organisme_projects", "organismes"
+  add_foreign_key "organisme_projects", "projects"
+  add_foreign_key "organismes", "users", column: "org_manager_id"
+  add_foreign_key "projects", "socials"
+  add_foreign_key "projects", "users", column: "manager_id"
 end

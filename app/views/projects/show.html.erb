@@ -1,0 +1,15 @@
+
+<h2><u><strong>Projet :</strong></u> <%= @project.title %></h2>
+<p><%= @project.description %></p>
+<p>begins at : <%= @project.start_date %></p>
+<p>ends at : <%= @project.end_date %></p>
+<p>Budget : <%= number_with_delimiter(@project.budget, delimiter: " ") %> €</p>
+<p>Program Manager : <%= @project.manager.email %></p>
+<div class="border border-rounded border-primary p-3 col-md-4">
+  <h4><strong>Organisme Chef de file : </strong></h4>
+  <p><%= link_to @project.chef_de_file.organisme.name.upcase, organisme_path(@project.chef_de_file.organisme), style: 'color: blue' %></p>
+  <p>Org Program Manager : <%= @project.org_project_manager ? @project.org_project_manager.email : 'Personne' %></p>
+</div>
+<%= render 'organisme_projects/list', organisme_projects: @project.organisme_projects %>
+
+<%= link_to 'Éditer', edit_project_path(@project), class: 'btn btn-outline-secondary' %>

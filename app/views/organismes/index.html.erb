@@ -1,21 +1,23 @@
 <h2> Index organismes </h2>
-
+<hr>
 <div>
   <%= link_to "Créer organisme", new_organisme_path, class: "btn btn-primary" %>
 </div>
 
-<br>
-<br>
-
+  <div class="d-flex flex-wrap">
 <% @organismes.each do |organisme| %>
-  <div>
-    <%= organisme.name %>
-    <strong><%= organisme.type %></strong>
+    <div class="border border-outline-secondary col-md-4 p-3 m-3">
 
-    <%= link_to "Voir detail", organisme_path(organisme), class: "btn btn-primary" %>
-    <%= link_to "Modifier", edit_organisme_path(organisme), class: "btn btn-secondary" %>
-    <%= link_to "Supprimer", organisme_path(organisme), data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' },class: "btn btn-danger" %>
+    <h2><%= organisme.name %></h2>
+    <strong><%= organisme.type %></strong>
+    <%#= organisme.org_manager.email %>
+    <div class="d-flex flex-wrap">
+    <%= link_to "Détail", organisme_path(organisme), class: "btn btn-primary m-2 px-3" %>
+    <%= link_to "Modifier", edit_organisme_path(organisme), class: "btn btn-secondary m-2 px-3" %>
+    <%= link_to "Supprimer", organisme_path(organisme), data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' },class: "btn btn-danger m-2 px-3" %>
+    </div>
   </div>
   <br>
 
 <% end %>
+    </div>

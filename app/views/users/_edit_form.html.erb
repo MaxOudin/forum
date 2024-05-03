@@ -1,0 +1,6 @@
+<% frame_id = dom_id(form.object, "#{attribute}_turbo_frame") %>
+<%= turbo_frame_tag frame_id, class: "form-group" do %>
+  <%= yield %>
+  <%= form.button "Save", class: "inline-action btn btn-primary" %>
+  <%= link_to "Cancel", form.object, class: "inline-action btn btn-secondary" %>
+<% end -%>

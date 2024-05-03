@@ -1,0 +1,27 @@
+<!-- Dans votre vue, par exemple app/views/layouts/application.html.erb -->
+<div data-controller="modal">
+  <!-- Bouton pour ouvrir le modal -->
+  <button data-action="click->modal#open" class="btn btn-primary">Open Modal</button>
+<%= link_to "New Partenaire",
+                    new_project_organisme_project_path(project_id: @project.id),
+                    class: "btn btn-primary",
+                    data: { turbo_frame: "new_op", target: 'modal', action: "click->modal#open" } %>
+  <!-- Structure du modal Bootstrap -->
+  <div class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Nouveau Partenaiiiire</h5>
+          <button type="button" class="btn-close" data-action="click->modal#close" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <%= yield %>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-action="click->modal#close">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

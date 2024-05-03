@@ -1,0 +1,4 @@
+<%= turbo_frame_tag 'org_project_manager_frame', target: 'organisme.managerSelect' do %>
+  <%= collection_select :project, :org_proj_man_id, managers, :id, :email, { prompt: "Veuillez sélectionner" }, { class: 'form-control', data: { organisme_target: 'managerSelect' }  } %>
+<% end %>
+

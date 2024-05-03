@@ -1,7 +1,7 @@
 class SocialsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_user
-  before_action :set_social, only: [:show, :edit, :update, :destroy]
+  before_action :set_social, only: %i[show edit update destroy]
 
   def index
     @socials = Social.all
@@ -52,5 +52,4 @@ class SocialsController < ApplicationController
   def set_user
     @user = current_user
   end
-
 end

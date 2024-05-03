@@ -1,4 +1,3 @@
-
 <div class="container-fluid">
 <%= form_with(model: organisme, local: true, multipart: true, url: organisme.persisted? ? organisme_path(organisme) : organisme.new_record? ? organismes_path : '') do |f| %>
   <% if organisme.errors.any? %>
@@ -16,14 +15,22 @@
       <div class="col-md-10 ">
         <div class="field mb-3">
           <%= f.label :name, value: "Nom de l'organisme" %>
-          <%= f.text_field :name, class: "form-control", style: "background-color: white;" %>
+          <%= f.text_field :name, class: "form-control bg-white" %>
         </div>
 
         <div class="field mb-3">
           <%= f.label :description, value: "Description de l'organisme" %>
-          <%= f.text_field :description, class: "form-control", style: "background-color: white;", rows: 30 %>
+          <%= f.text_area :description, class: "form-control bg-white", rows: 3 %>
         </div>
-
+        <% if params[:action].include?('edit') %>
+          <%= f.label :org_manager_id, value: "Entrez l'email du Manager de l'Organisme" %>
+          <%= f.select :org_manager_id, User.organisme_users(organisme).collect { |u| [u.email, u.id] }, {}, { class: "form-control bg-white" } %>
+        <% elsif params[:action].include?('new') %>
+         <div class="field mb-3">
+        <%= f.label :description, value: "Entrez l'email du Manager de l'Organisme" %>
+        <%= f.text_field :org_manager_id_email  , class: "form-control bg-white" %>
+      </div>
+        <% end -%>
         <% if organisme.persisted? %>
         <div class="field mb-3">
           <%= render 'shared/social_form', form: f %>
@@ -33,20 +40,15 @@
         <% if params[:action].include?('new') %>
         <div class="field mb-3">
           <%= f.label :type, "Veuillez sélectionner le type d'organisme" %>
-          <%= f.select :type, Organisme.types_for_select, include_blank: "Veuillez sélectionner", class: "form-control", style: "background-color: white;" %>
+          <%= f.select :type, Organisme.types_for_select, { include_blank: "Veuillez sélectionner" }, { class: "form-select bg-white" } %>
         </div>
         <% end -%>
       </div>
-
-      <div class="col-md-5">
-
-      </div>
-
-
     <br><br>
 
-    <div class="d-flex justify-content-evenly">
-      <%= f.submit "#{params[:action].include?('edit')? 'Modifier Organisme' : 'Créer Organisme'}", class: 'px-4 py-2' %>
+    <div class="d-flex justify-content-center">
+      <%= f.submit "#{params[:action].include?('edit')? 'Modifier Organisme' : 'Créer Organisme'}", data: { turbo: false }, class: 'm-1 p-2 btn btn-primary' %>
+      <%= link_to "Annuler", organismes_path, class: 'm-1 p-2 btn btn-secondary' %>
     </div>
   <% end %>
 </div>

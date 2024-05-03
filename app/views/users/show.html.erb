@@ -1,0 +1,13 @@
+<%= link_to 'Retour à la Liste d\'Utilisateurs', users_path, class: 'btn btn-outline-secondary my-2' %>
+<div>
+<h3><%= @user.email %></h3>
+    <p>Role : <%= @user.role %></p>
+  <%= form_with model: @user, url: user_path(@user), method: :put do |form| %>
+    <%= render 'edit_form', form: form, attribute: :email do %>
+      <%= form.label :email %>
+      <%= form.text_field :email, class: 'form-control p-2 m-2 bg-white' %>
+    <% end %>
+  <% end -%>
+</div>
+<hr>
+<%= render 'managed_proj_or_org', user: @user %>

@@ -1,0 +1,154 @@
+.modal-container, .modal-container-video {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  background-color: transparent;
+  max-width: 100vh;
+  max-height: 100vh;
+  margin-top: 30px;
+  iframe {
+    margin-top: 30px;
+    height: 350px;
+  }
+}
+
+.modal {
+  color: white;
+  display: none;
+  position: fixed;
+  z-index: 10;
+  left: 0;
+  top: 0;
+  width: 100%;
+  min-height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.8);
+}
+
+.modal .close {
+  color: rgb(106, 106, 106);
+  float: left;
+  top: 56px;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.modal .close:hover,
+.modal .close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.arrowsntitle {
+  height: 0px;
+  text-align: center;
+}
+
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  border: 2px solid #B1AAA9;
+  background-color: transparent;
+  color: #B1AAA9;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 50%;
+  outline: none;
+  transition: 0.6s ease;
+  img {
+    padding: 0px 2px 5px 0px;
+  }
+}
+
+.next {
+  right: 5%;
+  img {
+    padding: 0px 0px 5px 2px;
+  }
+}
+
+.prev {
+  left: 5%;
+  img {
+    padding: 0px 2px 5px 0px;
+  }
+}
+
+.prev:hover, .next:hover {
+  background-color: rgba(198, 198, 198, 0.495);
+  color: rgb(222, 222, 222);
+}
+
+.caption-text {
+  margin: 0 auto;
+  color: #f2f2f2;
+  font-size: 16px;
+  padding: 20px 20px;
+  position: relative;
+  bottom: 48px;
+  max-width: 100%;
+  background-color: rgb(0,0,0);
+}
+
+.cross {
+  max-width: 30px;
+  height: 50px;
+  padding: 4px;
+  font-weight: bolder;
+  position: absolute;
+  top: 2%;
+  right: 5%;
+  cursor: pointer;
+}
+
+.infos-video, .infos-video > * {
+    display: flex;
+    justify-content: space-between;
+    padding: 0px !important;
+  p {
+    font-size: 14px;
+  }
+}
+
+@media only screen and (max-width: 900px) {
+  .modal-container-video {
+    display: block;
+    width: 80%;
+    iframe {
+      height: 300px;
+    }
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .modal-container-video {
+    display: block;
+    width: 80%;
+    iframe {
+      height: 300px !important;
+    }
+    .photo-name {
+      font-size: 10px;
+    }
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .modal-container-video {
+    iframe {
+      height: 200px !important;
+    }
+   .photo-name {
+      font-size: 10px;
+    }
+  }
+}
+@media only screen and (max-width: 374px) {
+  .photo-name {
+    display: none;
+  }
+}

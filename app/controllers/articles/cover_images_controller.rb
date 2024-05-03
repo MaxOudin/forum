@@ -1,5 +1,5 @@
 class Articles::CoverImagesController < ApplicationController
-include ActionView::RecordIdentifier
+  include ActionView::RecordIdentifier
   before_action :authenticate_user!
   before_action :set_article
 
@@ -18,5 +18,4 @@ include ActionView::RecordIdentifier
   def set_article
     @article = Article.find(params[:article_id])
   end
-
 end

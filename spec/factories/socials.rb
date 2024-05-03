@@ -13,6 +13,8 @@
 #  updated_at         :datetime         not null
 #  name               :string
 #  website_url        :string
+#  socialable_type    :string           not null
+#  socialable_id      :bigint           not null
 #
 FactoryBot.define do
   factory :social do

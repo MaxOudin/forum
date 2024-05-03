@@ -1,0 +1,42 @@
+  <%= form.fields_for :organisme_projects do |ff| %>
+
+    <% if ff.object.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(ff.object.errors.count, "error") %> prohibited this organisme project from being saved:</h2>
+        <ul>
+          <% ff.object.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <%# raise %>
+    <div class="form-group">
+    <% if @project.organisme_projects.index(ff.object) == 0 && ff.object.type == "ChefDeFile" %>
+      <br>
+      <%= ff.label :organisme_id, "#{@project.organisme_projects.index(ff.object)} - #{ff.object.organisme.name}" %>
+    <% elsif ff.object.new_record? %>
+      <%= ff.label :organisme_id, "Sélectionnez un Organisme" %>
+      <%= ff.collection_select :organisme_id, Organisme.all, :id, :name, { include_blank: true }, { class: 'form-control bg-white' } %>
+    <% else %>
+      <%= ff.label :organisme_id, "#{@project.organisme_projects.index(ff.object)} - #{ff.object.organisme.name}" %>
+      <%= ff.collection_select :organisme_id, Organisme.all, :id, :name, { include_blank: true }, { class: 'form-control bg-white' } %>
+    <% end -%>
+    </div>
+      <% if ff.object.new_record? %>
+    <div class="form-group">
+      <%= ff.label :type, "Type" %>
+      <%= ff.select :type, ['MembreConsortium', 'Cofinanceur'], {}, { class: 'form-control bg-white' } %>
+    </div>
+    <% else %>
+      <%= ff.hidden_field :type %>
+    <% end %>
+    <div class="form-group">
+      <%= ff.label :budget, "Budget" %>
+      <%= ff.text_field :budget, { class: 'form-control bg-white' } %>
+    </div>
+    <%= form.hidden_field :org_project_manager_id, value: nil %>
+    <%= form.hidden_field :project_id, value: @project.id %>
+    <%= form.submit "Submit", class: "btn btn-primary my-4" %>
+  <% end -%>
