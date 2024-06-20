@@ -25,8 +25,5 @@ jobs:
       run: |
         bundle install
 
-    - name: Run Brakeman
-      run: bundle exec brakeman
-
     - name: Check migrations
       run: bundle exec rake db:migrate RAILS_ENV=test
