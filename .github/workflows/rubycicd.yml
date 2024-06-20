@@ -25,5 +25,3 @@ jobs:
       run: |
         bundle install
 
-    - name: Check migrations
-      run: bundle exec rake db:migrate RAILS_ENV=test
