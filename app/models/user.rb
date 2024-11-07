@@ -23,6 +23,7 @@ class User < ApplicationRecord
   belongs_to :permission
   has_many :articles, dependent: :destroy
   has_many :notifications, as: :recipient, dependent: :destroy
+  has_many :comments, dependent: :destroy
 
   # Validations
   validates :email, presence: true, uniqueness: { case_sensitive: false }

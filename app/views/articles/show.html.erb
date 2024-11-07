@@ -33,3 +33,22 @@
     <% end %>
   </div>
 </div>
+
+<div class="container col-md-10 mt-4">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="timeline">
+        <% @article.comments.each_with_index do |comment, index| %>
+          <div class="timeline-item <%= index.even? ? 'left' : 'right' %>">
+            <div class="timeline-content">
+              <strong><%= comment.user.email %></strong>
+              <p><%= comment.content %></p>
+              <small class="text-muted"><%= comment.created_at.strftime("%d/%m/%Y %H:%M") %></small>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <%= render 'comments/form', article: @article %>
+    </div>
+  </div>
+</div>

@@ -2,8 +2,6 @@ class ArticlesController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :set_user, except: [:index, :show]
   before_action :set_article, only: [:show, :edit, :update, :destroy]
-  before_action :authorize_article, only: [:edit, :update, :destroy]
-
 
   def index
     @articles = policy_scope(Article).order(created_at: :desc)
@@ -14,15 +12,16 @@ class ArticlesController < ApplicationController
 
   def new
     @article = Article.new
-    authorize_article
+    authorize @article
   end
 
   def create
     @article = Article.new(article_params)
     @article.user = current_user
-    authorize_article
+    authorize @article
 
-    if @article.save
+    if @article.save!
+      @article.cover_image.attach(params[:article][:cover_image])
       flash[:notice] = "Article créé avec succès"
       redirect_to article_path(@article)
     else
@@ -31,28 +30,23 @@ class ArticlesController < ApplicationController
     end
   end
 
-
   def edit
+    authorize @article
   end
 
   def update
+    authorize @article
     if @article.update(article_params)
+      @article.cover_image.attach(params[:article][:cover_image])
       redirect_to article_path(@article), notice: "Article modifié avec succès"
     else
       flash[:error] = "Article non modifié, veuillez réessayer"
       render :edit
     end
-    # if @article.update(article_params.except(:files))
-    #   update_files
-    #   redirect_to article_path(@article), notice: "Article modifié avec succès"
-    # else
-    #   flash[:error] = "Article non modifié, veuillez réessayer"
-    #   render :edit
-    # end
   end
 
-
   def destroy
+    authorize @article
     if @article.destroy
       flash[:notice] = "Article supprimé avec succès"
       redirect_to articles_path, status: :see_other
@@ -80,18 +74,21 @@ class ArticlesController < ApplicationController
     end
   end
 
-  private
+  def create_comment
+    @article = Article.find(params[:id])
+    @comment = @article.comments.new(comment_params)
+    @comment.user = current_user
 
-  def update_files
-    if params[:article][:files]
-      params[:article][:files].each do |file|
-        @article.files.attach(file)
-      end
+    if @comment.save
+      redirect_to @article, notice: 'Commentaire ajouté avec succès.'
+    else
+      redirect_to @article, alert: 'Erreur lors de l\'ajout du commentaire.'
     end
   end
 
+  private
+
   def article_params
-    # params.require(:article).permit(:title, :content, :public, files: [])
     params.require(:article).permit(:title, :content, :public, :cover_image)
   end
 
@@ -103,8 +100,7 @@ class ArticlesController < ApplicationController
     @article = Article.find(params[:id])
   end
 
-  def authorize_article
-    authorize @article
+  def comment_params
+    params.require(:comment).permit(:content)
   end
-
 end
