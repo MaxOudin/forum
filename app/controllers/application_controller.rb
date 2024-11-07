@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   before_action :authenticate_user!
+  before_action :set_locale_from_session
   include Pundit::Authorization
 
   # before_action :configure_permitted_parameters, if: :devise_controller?
@@ -22,11 +23,20 @@ class ApplicationController < ActionController::Base
   # Gestion des exceptions pour les politiques non autorisées
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
+  def set_locale
+    I18n.locale = params[:locale] || I18n.default_locale
+    session[:locale] = I18n.locale # Enregistre la langue dans la session utilisateur
+    redirect_back(fallback_location: root_path)
+  end
+
   private
 
-  # Méthode de secours pour gérer les politiques non autorisées
   def user_not_authorized
     flash[:alert] = "Vous n'êtes pas autorisé à effectuer cette action."
     redirect_to(request.referrer || root_path)
+  end
+
+  def set_locale_from_session
+    I18n.locale = session[:locale] || I18n.default_locale
   end
 end

@@ -1,9 +1,14 @@
 <div class="container mt-4">
   <h4>Ajouter un commentaire</h4>
   <%= form_with(model: [ article, Comment.new ], local: true) do |form| %>
-    <div class="mb-3">
-      <%= form.text_area :content, class: "form-control", rows: 3, placeholder: "Écrivez votre commentaire ici..." %>
-    </div>
+    <% I18n.available_locales.each do |locale| %>
+      <div class="field mb-3">
+        <% content = "content_#{Mobility.normalize_locale(locale)}" %>
+        <%= form.label "Commentaire en #{locale}" %>
+        <%= form.text_field content, class: "form-control", required: true %>
+      </div>
+    <% end %>
+
     <div class="d-flex justify-content-between">
       <%= form.submit "Ajouter un commentaire", class: "btn btn-primary" %>
       <%= link_to "Annuler", article_path(article), class: "btn btn-secondary" %>

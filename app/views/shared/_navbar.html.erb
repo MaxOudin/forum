@@ -1,6 +1,10 @@
 <div class="navbar navbar-expand-sm navbar-light navbar-forum">
   <div class="container-fluid">
-    <%= link_to "Accueil", root_path, class: "navbar-brand" %>
+    <div>
+      <%= form_with url: locale_path, method: :post, local: true do %>
+        <%= select_tag :locale, options_for_select([['English', :en], ['Français', :fr], ['Español', :es], ['Português', :pt]], I18n.locale), onchange: 'this.form.submit();' %>
+      <% end %>
+    </div>
     <div>
       <%= user_signed_in? ? "Bienvenue #{current_user.email}" : "Connectez-vous pour plus d'accès" %>
     </div>

@@ -127,5 +127,6 @@ Mobility.configure do
     # this plugin can create conflicts with other gems.
     #
     # attribute_methods
+    default_backend = :jsonb
   end
 end

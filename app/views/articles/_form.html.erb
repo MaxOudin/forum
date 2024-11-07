@@ -1,66 +1,62 @@
-
-<div class="container-fluid">
-  <%= form_with(model: article, local: true, multipart: true) do |f| %>
-    <% if f.object.errors.any? %>
-      <div class="m-3">
+<%= form_with(model: article, local: true, multipart: true) do |f| %>
+  <% if f.object.errors.any? %>
+    <div class="m-3">
       <% f.object.errors.full_messages.each do |error| %>
         <div><%= error %></div>
       <% end %>
-      <div>
-    <% end %>
-    <div class="row">
+    </div>
+  <% end %>
 
-      <!-- Champs title, content, et public -->
-      <div class="col-md-10 ">
-        <div class="field mb-3">
-          <h4> Gestion des contenus :</h4>
-          <%= f.label :title, value: "Titre de l'article" %>
-          <%= f.text_field :title, class: "form-control", style: "background-color: white;" %>
-        </div>
+  <div class="row">
+    <!-- Titre de l'article -->
+    <div class="col-md-10">
+      <div class="field mb-3">
+        <% I18n.available_locales.each do |locale| %>
+          <div class="field mb-3">
+            <% title = "title_#{Mobility.normalize_locale(locale)}" %>
+            <%= f.label "Titre en #{locale}" %>
+            <%= f.text_field title, class: "form-control", required: true %>
+          </div>
+        <% end %>
+      </div>
 
-        <div class="field mb-3">
-          <%= f.label :description, value: "Contenu de l'article" %>
-          <%= f.rich_text_area :content, class: "form-control", style: "background-color: white;", rows: 30 %>
-        </div>
+    <!-- Contenu de l'article avec rich text -->
+      <div class="field mb-3">
+        <%= f.label :content, "Contenu de l'article" %>
+        <%= f.rich_text_area :content, class: "form-control", style: "background-color: white;", rows: 10 %>
+      </div>
 
-        <div class="field mb-3" style="background-color: white;">
-          <%= f.label :public, "Veuillez cocher pour rendre l'article visible à tous", style: "background-color: white;" %>
-          <%= f.check_box :public %>
+    <!-- Public ou privé -->
+      <div class="field mb-3" style="background-color: white;">
+        <%= f.label :public, "Rendre l'article visible ?" %>
+        <%= f.check_box :public %>
+      </div>
+
+      <!-- Image de couverture -->
+      <div class="flex flex-col m-3" data-controller="image-preview">
+        <%= f.label :cover_image, "Image associée à l'article" %>
+        <% if article.persisted? && article.cover_image.attached? %>
+          <div id="<%= dom_id(article, :cover_image) %>" data-image-preview-target="actual">
+            Nom de fichier: <%= article.cover_image.filename %>
+            <%= image_tag article.cover_image, style: "width: 100%; height: 60vh;" %>
+            <br>
+            <%= link_to "Supprimer image", article_cover_image_path(article), data: { turbo_method: :delete, turbo_confirm: "Etes-vous sûr ?" } %>
+          </div>
+        <% end %>
+        <br>
+        <div class="border border-gray-300" style="background-color: white;">
+          <%= f.file_field :cover_image, value: :cover_image, direct_upload: true, data: { image_preview_target: "input", action: "change->image-preview#previewImage" }  %>
+          <div data-image-preview-target="preview"></div>
         </div>
       </div>
 
-      <div class="col-md-5">
-
-        <div class="flex flex-col m-3" data-controller="image-preview">
-          <%= f.label :cover_image, value: "Image associée à l'article" %>
-          <% if article.persisted? && article.cover_image.attached? %>
-            <div id="<%= dom_id(article, :cover_image) %>" data-image-preview-target="actual">
-              Nom de fichier: <%= article.cover_image.filename %>
-              <%= image_tag article.cover_image, style: "width: 100%; height: 60vh;" %>
-              <br>
-              <%= link_to "Supprimer image", article_cover_image_path(article), data: { turbo_method: :delete, turbo_confirm: "Are you Sure ?" } %>
-            </div>
-          <% end %>
-          <br>
-          <div class="border border-gray-300" style="background-color: white;">
-            <%= f.file_field :cover_image, direct_upload: true, data: { image_preview_target: "input", action: "change->image-preview#previewImage" }  %>
-            <div data-image-preview-target="preview">
-
-            </div>
-          </div>
-        </div>
-
-    </div>
-
-    <br><br>
-
-    <div class="d-flex justify-content-evenly">
+      <!-- Boutons de soumission -->
       <% if article.persisted? %>
-        <%= f.submit 'Modifier Article', data: { turbo: false }, class: "btn btn-primary" %>
+        <%= f.submit 'Modifier Article', class: "btn btn-primary" %>
       <% else %>
-        <%= f.submit 'Créer Article', data: { turbo: false }, class: "btn btn-primary" %>
+        <%= f.submit 'Créer Article', class: "btn btn-primary" %>
       <% end %>
       <%= link_to 'Retour', articles_path, class: "btn btn-secondary" %>
     </div>
-  <% end %>
-</div>
+  </div>
+<% end %>

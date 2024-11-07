@@ -36,8 +36,12 @@ class ArticlesController < ApplicationController
 
   def update
     authorize @article
-    if @article.update(article_params)
+
+    if params[:article][:cover_image].present?
       @article.cover_image.attach(params[:article][:cover_image])
+    end
+
+    if @article.update(article_params)
       redirect_to article_path(@article), notice: "Article modifié avec succès"
     else
       flash[:error] = "Article non modifié, veuillez réessayer"
@@ -89,7 +93,7 @@ class ArticlesController < ApplicationController
   private
 
   def article_params
-    params.require(:article).permit(:title, :content, :public, :cover_image)
+    params.require(:article).permit(:title_fr, :title_en, :title_es, :title_pt, :content, :public, :cover_image)
   end
 
   def set_user
@@ -101,6 +105,6 @@ class ArticlesController < ApplicationController
   end
 
   def comment_params
-    params.require(:comment).permit(:content)
+    params.require(:comment).permit(:content_en, :content_fr, :content_es, :content_pt, :user_id, :article_id)
   end
 end

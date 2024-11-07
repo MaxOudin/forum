@@ -5,7 +5,7 @@
     <p style="color: red;"> L'article est privé. </p>
   <% end %>
 
-  <p> Contenu :<%= @article.content %> </p>
+  <p> Contenu : <%= sanitize(@article.content) %> </p>
   <p> Article écrit par <%= @article.user.email %></p>
   <p> Crée le <%= @article.created_at.strftime("%d/%m/%Y") %></p>
 
