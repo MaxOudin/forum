@@ -1,62 +1,90 @@
-# syntax = docker/dockerfile:1
+# syntax=docker/dockerfile:1
 
-# Make sure RUBY_VERSION matches the Ruby version in .ruby-version and Gemfile
-ARG RUBY_VERSION=3.2.2
-FROM registry.docker.com/library/ruby:$RUBY_VERSION-slim as base
-
-# Rails app lives here
-WORKDIR /rails
+################################################################################
+# Pick a base image to serve as the foundation for the other build stages in
+# this file.
 
 # Set production environment
-ENV RAILS_ENV="production" \
-    BUNDLE_DEPLOYMENT="1" \
-    BUNDLE_PATH="/usr/local/bundle" \
-    BUNDLE_WITHOUT="development"
+# ENV RAILS_ENV="production" \
+    # BUNDLE_DEPLOYMENT="1" \
+    # BUNDLE_PATH="/usr/local/bundle" \
+    # BUNDLE_WITHOUT="development"
 
 
-# Throw-away build stage to reduce size of final image
+# For illustrative purposes, the following FROM command
+# is using the alpine image (see https://hub.docker.com/_/alpine).
+# By specifying the "latest" tag, it will also use whatever happens to be the
+# most recent version of that image when you build your Dockerfile.
+# If reproducability is important, consider using a versioned tag
+# (e.g., alpine:3.17.2) or SHA (e.g., alpine@sha256:c41ab5c992deb4fe7e5da09f67a8804a46bd0592bfdf0b1847dde0e0889d2bff).
+FROM alpine:latest as base
+
+# Create a stage for building/compiling the application.
+#
+# The following commands will leverage the "base" stage above to generate
+# a "hello world" script and make it executable, but for a real application, you
+# would issue a RUN command for your application's build process to generate the
+# executable. For language-specific examples, take a look at the Dockerfiles in
+# the Awesome Compose repository: https://github.com/docker/awesome-compose
 FROM base as build
+RUN echo -e '#!/bin/sh\n\
+echo Hello world from $(whoami)! In order to get your application running in a container, take a look at the comments in the Dockerfile to get started.'\
+> /bin/hello.sh
+RUN chmod +x /bin/hello.sh
 
-# Install packages needed to build gems
-RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential git libpq-dev libvips pkg-config
+################################################################################
+# Create a final stage for running your application.
+#
+# The following commands copy the output from the "build" stage above and tell
+# the container runtime to execute it when the image is run. Ideally this stage
+# contains the minimal runtime dependencies for the application as to produce
+# the smallest image possible. This often means using a different and smaller
+# image than the one used for building the application, but for illustrative
+# purposes the "base" image is used here.
 
-# Install application gems
-COPY Gemfile Gemfile.lock ./
-RUN bundle install && \
-    rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
-    bundle exec bootsnap precompile --gemfile
+# Create a non-privileged user that the app will run under.
+# See https://docs.docker.com/go/dockerfile-user-best-practices/
+# more info : https://docs.docker.com/compose/rails/
 
-# Copy application code
-COPY . .
+# Image de base pour Ruby, utilisée pour l'application Rails.
+FROM ruby:3.2.2
 
-# Precompile bootsnap code for faster boot times
-RUN bundle exec bootsnap precompile app/ lib/
+# Mise à jour des paquets et installation des dépendances nécessaires.
+RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs
 
-# Precompiling assets for production without requiring secret RAILS_MASTER_KEY
-RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
+# Création et définition du répertoire de travail de l'application.
+RUN mkdir /myapp
+WORKDIR /myapp
+
+## Install JavaScript dependencies
+# ARG NODE_VERSION=20.5.1
+# ARG YARN_VERSION=1.22.19
+# ENV PATH=/usr/local/node/bin:$PATH
+# RUN curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz -C /tmp/ && \
+    # /tmp/node-build-master/bin/node-build "${NODE_VERSION}" /usr/local/node && \
+    # npm install -g yarn@$YARN_VERSION && \
+    # rm -rf /tmp/node-build-master
 
 
-# Final stage for app image
-FROM base
+# Copie des fichiers Gemfile et Gemfile.lock pour installer les gems.
+COPY Gemfile /myapp/Gemfile
+COPY Gemfile.lock /myapp/Gemfile.lock
+RUN bundle install
 
-# Install packages needed for deployment
-RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y curl libvips postgresql-client && \
-    rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
-# Copy built artifacts: gems, application
-COPY --from=build /usr/local/bundle /usr/local/bundle
-COPY --from=build /rails /rails
+## Install node modules
+# COPY package.json yarn.lock ./
+# RUN yarn install --frozen-lockfile
 
-# Run and own only the runtime files as a non-root user for security
-RUN useradd rails --create-home --shell /bin/bash && \
-    chown -R rails:rails db log storage tmp
-USER rails:rails
 
-# Entrypoint prepares the database.
-ENTRYPOINT ["/rails/bin/docker-entrypoint"]
+# Copie de l'ensemble du projet dans le répertoire de travail.
+COPY . /myapp
 
-# Start the server by default, this can be overwritten at runtime
+# Précompilation des assets en mode production (si nécessaire)
+# RUN RAILS_ENV=production rails assets:precompile
+
+# Exposition du port sur lequel l'application tourne
 EXPOSE 3000
-CMD ["./bin/rails", "server"]
+
+# Commande pour lancer le serveur Rails
+CMD ["rails", "server", "-b", "0.0.0.0"]

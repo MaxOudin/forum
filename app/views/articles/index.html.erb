@@ -1,38 +1,26 @@
-<h2> Forum </h2>
+<h2>Forum</h2>
 
-<%= link_to "Créer un article", new_article_path, class: "btn btn-primary", style: "margin-bottom: 1rem;" %>
+<%= link_to "Créer un article", new_article_path, class: "btn btn-primary mb-3" %>
 
 <div class="row">
   <% @articles.each do |article| %>
-    <div class="col-md-4">
-      <div class="card mb-3" style="width: 20rem; height: 32rem; background-color: white;">
-
+    <div class="col-md-4 mb-4">
+      <div class="card">
         <% if article.cover_image.attached? %>
-          <%= image_tag article.cover_image, style: "width: 100%; height: 20vh; object-position:center; object-fit: cover;" %>
+          <%= image_tag article.cover_image, class: "card-img-top", style: "height: 200px; object-fit: cover;" %>
         <% end %>
-        <div class="card-body d-flex flex-column">
-          <p class="card-text">Publié le <%= article.created_at.strftime("%d/%m/%Y") %></p>
+        <div class="card-body">
           <h5 class="card-title"><%= article.title %></h5>
-          <%# <p class="card-text"><%= truncate(article.content.body.to_plain_text, length: 200) </p> %>
+          <p class="card-text">Publié le <%= article.created_at.strftime("%d/%m/%Y") %></p>
           <p class="card-text">Par: <%= article.user.email %></p>
-          <div class="mt-auto">
-            <div class="d-flex flex-column">
-            <!-- Vérification policy pour boutons -->
+          <div class="d-flex justify-content-between">
+            <%= link_to "Voir plus", article_path(article), class: "btn btn-primary" %>
             <% if policy(article).update? %>
-              <div class="d-flex justify-content-end">
-                <%= link_to "Modifier article", edit_article_path(article), class: "btn btn-secondary", style: "margin-bottom: 1rem;" %>
-              </div>
+              <%= link_to "Modifier", edit_article_path(article), class: "btn btn-secondary" %>
             <% end %>
-
-            </div>
-            <div class="d-flex justify-content-end">
-                <%= link_to "Voir plus", article_path(article), class:"btn btn-primary" %>
-            </div>
           </div>
         </div>
       </div>
     </div>
   <% end %>
 </div>
-<br>
-<br>

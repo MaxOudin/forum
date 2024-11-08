@@ -10,15 +10,19 @@
 #  public     :boolean          default(FALSE)
 #
 class Article < ApplicationRecord
-  # has_many_attached :files
-  has_one_attached :cover_image
-  has_rich_text :content
-
-  validates :title, presence: true, uniqueness: { case_sensitive: false }
-  validates :content, presence: true
-  validates :id, presence: true, uniqueness: true
-  validates :public, inclusion: { in: [true, false] }, presence: true
+  include TranslatableRichText
+  extend Mobility
+  translates :title, type: :string
 
   belongs_to :user
+
+  has_rich_text :content
+  has_translated_rich_text :content
+
+  has_one_attached :cover_image
+  has_many :comments, dependent: :destroy
+
+  validates :title, presence: true, uniqueness: { case_sensitive: false }
+  validates :public, inclusion: { in: [true, false] }
 
 end

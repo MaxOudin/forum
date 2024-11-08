@@ -1,0 +1,28 @@
+/* Ajoutez ce CSS dans votre fichier CSS principal ou dans un fichier CSS spécifique */
+.timeline {
+  position: relative;
+  padding: 20px 0;
+}
+
+.timeline-line {
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px; /* Épaisseur de la ligne */
+  background-color: #ccc; /* Couleur de la ligne */
+  transform: translateX(-50%);
+}
+
+.timeline-item {
+  margin: 20px 0;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.timeline-item .timeline-content {
+  margin-bottom: 10px;
+  background-color: #f8f9fa; /* Couleur de fond des commentaires */
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
