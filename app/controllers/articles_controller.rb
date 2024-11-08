@@ -12,16 +12,20 @@ class ArticlesController < ApplicationController
 
   def new
     @article = Article.new
+    @image_resizer = ImageResizer.new
     authorize @article
   end
 
   def create
+
     @article = Article.new(article_params)
     @article.user = current_user
     authorize @article
 
-    if @article.save!
+    if params[:article][:cover_image].present?
       @article.cover_image.attach(params[:article][:cover_image])
+    end
+    if @article.save
       flash[:notice] = "Article créé avec succès"
       redirect_to article_path(@article)
     else
@@ -93,7 +97,11 @@ class ArticlesController < ApplicationController
   private
 
   def article_params
-    params.require(:article).permit(:title_fr, :title_en, :title_es, :title_pt, :content, :public, :cover_image)
+    params.require(:article).permit(
+      :public, :cover_image,
+      *I18n.available_locales.map { |locale| "title_#{locale}" },
+      *I18n.available_locales.map { |locale| "content_#{locale}" }
+    )
   end
 
   def set_user
@@ -105,6 +113,6 @@ class ArticlesController < ApplicationController
   end
 
   def comment_params
-    params.require(:comment).permit(:content_en, :content_fr, :content_es, :content_pt, :user_id, :article_id)
+    params.require(:comment).permit(*I18n.available_locales.map { |locale| "content#{locale}" }, :user_id, :article_id)
   end
 end

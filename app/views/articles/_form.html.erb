@@ -1,62 +1,76 @@
-<%= form_with(model: article, local: true, multipart: true) do |f| %>
-  <% if f.object.errors.any? %>
-    <div class="m-3">
-      <% f.object.errors.full_messages.each do |error| %>
-        <div><%= error %></div>
-      <% end %>
-    </div>
-  <% end %>
+<div class="container-fluid">
+  <%= form_with(model: article, local: true, multipart: true) do |f| %>
+    <% if f.object.errors.any? %>
+      <div class="alert alert-danger">
+        <h4>Erreur(s) :</h4>
+        <ul>
+          <% f.object.errors.full_messages.each do |error| %>
+            <li><%= error %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
 
-  <div class="row">
-    <!-- Titre de l'article -->
-    <div class="col-md-10">
-      <div class="field mb-3">
-        <% I18n.available_locales.each do |locale| %>
-          <div class="field mb-3">
+    <!-- Onglets -->
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <% I18n.available_locales.each do |locale| %>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link <%= locale == I18n.default_locale ? 'active' : '' %>" id="<%= locale %>-tab" data-bs-toggle="tab" data-bs-target="#<%= locale %>" type="button" role="tab" aria-controls="<%= locale %>" aria-selected="<%= locale == I18n.default_locale %>">
+            <%= locale.upcase %>
+          </button>
+        </li>
+      <% end %>
+    </ul>
+
+    <div class="tab-content" id="myTabContent">
+      <% I18n.available_locales.each do |locale| %>
+        <div class="tab-pane fade <%= locale == I18n.default_locale ? 'show active' : '' %>" id="<%= locale %>" role="tabpanel" aria-labelledby="<%= locale %>-tab">
+          <div class="mb-3">
             <% title = "title_#{Mobility.normalize_locale(locale)}" %>
-            <%= f.label "Titre en #{locale}" %>
+            <%= f.label "Titre en #{locale}", class: "form-label" %>
             <%= f.text_field title, class: "form-control", required: true %>
           </div>
-        <% end %>
-      </div>
-
-    <!-- Contenu de l'article avec rich text -->
-      <div class="field mb-3">
-        <%= f.label :content, "Contenu de l'article" %>
-        <%= f.rich_text_area :content, class: "form-control", style: "background-color: white;", rows: 10 %>
-      </div>
-
-    <!-- Public ou privé -->
-      <div class="field mb-3" style="background-color: white;">
-        <%= f.label :public, "Rendre l'article visible ?" %>
-        <%= f.check_box :public %>
-      </div>
-
-      <!-- Image de couverture -->
-      <div class="flex flex-col m-3" data-controller="image-preview">
-        <%= f.label :cover_image, "Image associée à l'article" %>
-        <% if article.persisted? && article.cover_image.attached? %>
-          <div id="<%= dom_id(article, :cover_image) %>" data-image-preview-target="actual">
-            Nom de fichier: <%= article.cover_image.filename %>
-            <%= image_tag article.cover_image, style: "width: 100%; height: 60vh;" %>
-            <br>
-            <%= link_to "Supprimer image", article_cover_image_path(article), data: { turbo_method: :delete, turbo_confirm: "Etes-vous sûr ?" } %>
+          <div class="mb-3">
+            <% content = "content_#{Mobility.normalize_locale(locale)}" %>
+            <%= f.label "Content en #{locale}", class: "form-label" %>
+            <%= f.rich_text_area content, class: "form-control", rows: 10 %>
           </div>
-        <% end %>
-        <br>
-        <div class="border border-gray-300" style="background-color: white;">
-          <%= f.file_field :cover_image, value: :cover_image, direct_upload: true, data: { image_preview_target: "input", action: "change->image-preview#previewImage" }  %>
-          <div data-image-preview-target="preview"></div>
+        </div>
+      <% end %>
+
+      <div class="mb-3">
+        <h2>Contenu commun aux locales</h2>
+
+        <!-- Public ou privé -->
+        <div class="field mb-3">
+          <%= f.label :public, "Rendre l'article visible ?" %>
+          <%= f.check_box :public %>
+        </div>
+
+        <!-- Image de couverture -->
+        <div class="flex flex-col m-3" data-controller="image-preview">
+          <%= f.label :cover_image, "Image associée à l'article" %>
+          <% if article.persisted? && article.cover_image.attached? %>
+            <div id="<%= dom_id(article, :cover_image) %>" data-image-preview-target="actual">
+              Nom de fichier: <%= article.cover_image.filename %>
+              <%= image_tag article.cover_image, style: "width: 50%; height: 60vh;" %>
+              <br>
+              <%= link_to "Supprimer image", article_cover_image_path(article), data: { turbo_method: :delete, turbo_confirm: "Etes-vous sûr ?" } %>
+            </div>
+          <% end %>
+          <br>
+          <div class="border border-gray-300" style="background-color: white;">
+            <%= f.file_field :cover_image, value: :cover_image, direct_upload: true, data: { image_preview_target: "input", action: "change->image-preview#previewImage" }  %>
+            <div data-image-preview-target="preview"></div>
+          </div>
         </div>
       </div>
 
-      <!-- Boutons de soumission -->
-      <% if article.persisted? %>
-        <%= f.submit 'Modifier Article', class: "btn btn-primary" %>
-      <% else %>
-        <%= f.submit 'Créer Article', class: "btn btn-primary" %>
-      <% end %>
-      <%= link_to 'Retour', articles_path, class: "btn btn-secondary" %>
     </div>
-  </div>
-<% end %>
+
+    <div class="d-flex justify-content-between">
+      <%= f.submit 'Enregistrer', class: "btn btn-primary" %>
+      <%= link_to 'Annuler', articles_path, class: "btn btn-secondary" %>
+    </div>
+  <% end %>
+</div>

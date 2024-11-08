@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_11_07_140316) do
+ActiveRecord::Schema[7.1].define(version: 2024_11_08_091611) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -146,6 +146,17 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_07_140316) do
     t.string "socialable_type", null: false
     t.bigint "socialable_id", null: false
     t.index ["socialable_type", "socialable_id"], name: "index_socials_on_socialable"
+  end
+
+  create_table "translated_rich_texts", force: :cascade do |t|
+    t.string "locale", null: false
+    t.string "field_name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["record_type", "record_id", "field_name", "locale"], name: "index_translated_rich_texts_uniqueness", unique: true
+    t.index ["record_type", "record_id"], name: "index_translated_rich_texts_on_record"
   end
 
   create_table "users", force: :cascade do |t|

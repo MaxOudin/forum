@@ -10,16 +10,19 @@
 #  public     :boolean          default(FALSE)
 #
 class Article < ApplicationRecord
+  include TranslatableRichText
   extend Mobility
   translates :title, type: :string
 
-  has_one_attached :cover_image
+  belongs_to :user
+
   has_rich_text :content
+  has_translated_rich_text :content
+
+  has_one_attached :cover_image
+  has_many :comments, dependent: :destroy
 
   validates :title, presence: true, uniqueness: { case_sensitive: false }
   validates :public, inclusion: { in: [true, false] }
-
-  belongs_to :user
-  has_many :comments, dependent: :destroy
 
 end
